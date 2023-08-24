@@ -3,7 +3,7 @@
 import 'package:ecommerceapp/constants.dart';
 import 'package:ecommerceapp/controllers/login_controller.dart';
 import 'package:ecommerceapp/controllers/utils.dart';
-import 'package:ecommerceapp/views/home_page.dart';
+import 'package:ecommerceapp/main_menu.dart';
 import 'package:ecommerceapp/views/widgets/buttons/basic_text_button.dart';
 import 'package:ecommerceapp/views/widgets/textfields/form_textfield.dart';
 import 'package:ecommerceapp/views/widgets/texts/big_heading.dart';
@@ -169,7 +169,7 @@ class LoginPage extends StatelessWidget {
                               Navigator.pushAndRemoveUntil(context,
                                   MaterialPageRoute(
                                       builder: (BuildContext context) {
-                                return const HomePage();
+                                return MainMenu();
                               }), (r) {
                                 return false;
                               });

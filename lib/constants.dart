@@ -24,7 +24,7 @@ final TextEditingController baseUrlController = TextEditingController();
 
 //Urls
 
-String baseUrl = "https://01bd-59-94-173-103.ngrok-free.app";
+String baseUrl = "https://c3e4-2a09-bac1-36a0-1d0-00-29e-e0.ngrok-free.app";
 const String registerUrl = "/register";
 const String verifyOTPUrl = '/verify-otp';
 const String loginUrl = '/login';

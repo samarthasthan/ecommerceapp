@@ -1,6 +1,8 @@
 import 'package:api_cache_manager/utils/cache_manager.dart';
 import 'package:ecommerceapp/controllers/token_verify.dart';
+import 'package:ecommerceapp/main_menu.dart';
 import 'package:ecommerceapp/views/boarding/onboard_page.dart';
+// ignore: unused_import
 import 'package:ecommerceapp/views/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,8 +29,6 @@ class FruBayAppAuth extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(360, 690),
-      minTextAdapt: true,
-      splitScreenMode: true,
       builder: (context, child) {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
@@ -46,12 +46,10 @@ class FruBayAppHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(360, 690),
-      minTextAdapt: true,
-      splitScreenMode: true,
       builder: (context, child) {
-        return const GetMaterialApp(
+        return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          home: HomePage(),
+          home: MainMenu(),
         );
       },
     );
