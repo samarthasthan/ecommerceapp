@@ -42,6 +42,7 @@ dependencies:
   flutter_keyboard_visibility: ^5.4.1
   api_cache_manager: ^1.0.2
   carousel_slider: ^4.2.1
+  phosphor_flutter: ^2.0.0
 
 dev_dependencies:
   flutter_test:

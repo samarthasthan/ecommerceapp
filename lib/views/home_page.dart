@@ -14,9 +14,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -32,12 +33,30 @@ class _HomePageState extends State<HomePage>
     return Scaffold(
         appBar: AppBar(
           backgroundColor: whiteColor,
+          centerTitle: false,
           title: BigHeading(
             text: "FruBay",
             color: blackColor,
-            weight: FontWeight.w800,
+            weight: FontWeight.w900,
           ),
+          actions: [
+            PhosphorIcon(
+              PhosphorIcons.regular.bell,
+              color: blackColor,
+            ),
+            SizedBox(
+              width: padding / 2,
+            ),
+            PhosphorIcon(
+              PhosphorIcons.regular.heart,
+              color: blackColor,
+            ),
+            SizedBox(
+              width: padding,
+            )
+          ],
           elevation: 0,
+          toolbarHeight: 40,
         ),
         body: FutureBuilder(
             future: homePageController.getHomePage(),

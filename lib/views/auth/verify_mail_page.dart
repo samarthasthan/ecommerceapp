@@ -67,7 +67,7 @@ class VerifyMailPage extends StatelessWidget {
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: padding),
             child: SingleChildScrollView(
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               child: SizedBox(
                 width: double.infinity,
                 height: double.maxFinite,

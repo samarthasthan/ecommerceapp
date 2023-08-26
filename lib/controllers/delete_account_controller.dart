@@ -10,7 +10,7 @@ class DeleteAccount extends GetxController {
       'Authorization': 'Bearer ${token.syncData}',
     };
 
-    var url = Uri.parse(baseUrl + '/user/delete');
+    var url = Uri.parse('$baseUrl/user/delete');
     var res = await http.get(url, headers: headers);
     print(res.statusCode);
     if (res.statusCode != 200) {

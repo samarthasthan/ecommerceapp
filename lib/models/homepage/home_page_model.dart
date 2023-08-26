@@ -9,16 +9,16 @@ class HomePageModel {
     if (json['widgets'] != null) {
       widgets = <Widgets>[];
       json['widgets'].forEach((v) {
-        widgets!.add(new Widgets.fromJson(v));
+        widgets!.add(Widgets.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['page_title'] = this.pageTitle;
-    if (this.widgets != null) {
-      data['widgets'] = this.widgets!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['page_title'] = pageTitle;
+    if (widgets != null) {
+      data['widgets'] = widgets!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -61,24 +61,24 @@ class Widgets {
     if (json['widget_items'] != null) {
       widgetItems = <WidgetItems>[];
       json['widget_items'].forEach((v) {
-        widgetItems!.add(new WidgetItems.fromJson(v));
+        widgetItems!.add(WidgetItems.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['widget_title'] = this.widgetTitle;
-    data['widget_type'] = this.widgetType;
-    data['rank'] = this.rank;
-    data['has_header'] = this.hasHeader;
-    data['has_background'] = this.hasBackground;
-    data['header'] = this.header;
-    data['background'] = this.background;
-    data['items_height'] = this.itemsHeight;
-    data['items_width'] = this.itemsWidth;
-    if (this.widgetItems != null) {
-      data['widget_items'] = this.widgetItems!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['widget_title'] = widgetTitle;
+    data['widget_type'] = widgetType;
+    data['rank'] = rank;
+    data['has_header'] = hasHeader;
+    data['has_background'] = hasBackground;
+    data['header'] = header;
+    data['background'] = background;
+    data['items_height'] = itemsHeight;
+    data['items_width'] = itemsWidth;
+    if (widgetItems != null) {
+      data['widget_items'] = widgetItems!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -100,11 +100,11 @@ class WidgetItems {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['image_url'] = this.imageUrl;
-    data['url'] = this.url;
-    data['type'] = this.type;
-    data['rank'] = this.rank;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['image_url'] = imageUrl;
+    data['url'] = url;
+    data['type'] = type;
+    data['rank'] = rank;
     return data;
   }
 }

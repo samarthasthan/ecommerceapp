@@ -4,7 +4,6 @@ import 'package:ecommerceapp/controllers/delete_account_controller.dart';
 import 'package:ecommerceapp/controllers/nagivation_animations/up_down_navigation.dart';
 import 'package:ecommerceapp/views/boarding/onboard_page.dart';
 import 'package:ecommerceapp/views/widgets/buttons/basic_text_button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {

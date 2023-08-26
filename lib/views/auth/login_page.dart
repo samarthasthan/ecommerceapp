@@ -169,7 +169,7 @@ class LoginPage extends StatelessWidget {
                               Navigator.pushAndRemoveUntil(context,
                                   MaterialPageRoute(
                                       builder: (BuildContext context) {
-                                return MainMenu();
+                                return const MainMenu();
                               }), (r) {
                                 return false;
                               });
