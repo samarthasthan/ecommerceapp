@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:api_cache_manager/utils/cache_manager.dart';
 import 'package:ecommerceapp/constants.dart';
 import 'package:get/get.dart';
@@ -12,7 +14,6 @@ class TokenVerify extends GetxController {
 
     var url = Uri.parse(baseUrl + verifyTokenUrl);
     var res = await http.get(url, headers: headers);
-    print(res.statusCode);
     if (res.statusCode != 200) {
       return false;
     } else {

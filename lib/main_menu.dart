@@ -1,4 +1,5 @@
 import 'package:ecommerceapp/constants.dart';
+import 'package:ecommerceapp/views/account_page.dart';
 import 'package:ecommerceapp/views/home_page.dart';
 import 'package:ecommerceapp/views/profile_page.dart';
 import 'package:flutter/material.dart';
@@ -22,8 +23,7 @@ class _MainMenuState extends State<MainMenu> {
     const HomePage(),
     const ProfilePage(),
     const ProfilePage(),
-    const ProfilePage(),
-    const ProfilePage(),
+    const AccountPage(),
   ];
 
   @override
@@ -94,31 +94,21 @@ class _MainMenuState extends State<MainMenu> {
                   label: "Category"),
               BottomNavigationBarItem(
                   icon: PhosphorIcon(
-                    PhosphorIcons.regular.magnifyingGlass,
+                    PhosphorIcons.regular.heart,
                     color: blackColor,
                   ),
                   activeIcon: PhosphorIcon(
-                    PhosphorIcons.fill.magnifyingGlass,
+                    PhosphorIcons.fill.heart,
                     color: blackColor,
                   ),
-                  label: "Search"),
+                  label: "Wishlist"),
               BottomNavigationBarItem(
                   icon: PhosphorIcon(
-                    PhosphorIcons.regular.shoppingCartSimple,
+                    PhosphorIcons.regular.userCircle,
                     color: blackColor,
                   ),
                   activeIcon: PhosphorIcon(
-                    PhosphorIcons.fill.shoppingCartSimple,
-                    color: blackColor,
-                  ),
-                  label: "Cart"),
-              BottomNavigationBarItem(
-                  icon: PhosphorIcon(
-                    PhosphorIcons.regular.user,
-                    color: blackColor,
-                  ),
-                  activeIcon: PhosphorIcon(
-                    PhosphorIcons.fill.user,
+                    PhosphorIcons.fill.userCircle,
                     color: blackColor,
                   ),
                   label: "Account"),

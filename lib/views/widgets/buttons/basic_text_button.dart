@@ -13,10 +13,10 @@ class BasicTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         width: double.infinity,
-        height: padding * 3,
+        height: padding * 2.5,
         decoration: BoxDecoration(
             color: backgroundColor,
-            borderRadius: BorderRadius.circular(padding / 2)),
+            borderRadius: BorderRadius.circular(padding / 3)),
         child: Center(
           child: Paragraph(
             text: text,

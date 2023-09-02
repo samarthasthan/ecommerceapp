@@ -6,8 +6,10 @@ import 'package:ecommerceapp/constants.dart';
 import 'package:ecommerceapp/controllers/home_page_contoller.dart';
 // ignore: unused_import
 import 'package:ecommerceapp/controllers/main_menu_controller.dart';
+import 'package:ecommerceapp/controllers/nagivation_animations/up_down_navigation.dart';
 import 'package:ecommerceapp/models/homepage/home_page_widgets.dart';
 import 'package:ecommerceapp/models/homepage/home_page_model.dart';
+import 'package:ecommerceapp/views/cart_page.dart';
 import 'package:ecommerceapp/views/widgets/texts/big_heading.dart';
 import 'package:ecommerceapp/views/widgets/texts/paragraph.dart';
 import 'package:flutter/cupertino.dart';
@@ -41,22 +43,28 @@ class _HomePageState extends State<HomePage>
           ),
           actions: [
             PhosphorIcon(
-              PhosphorIcons.regular.bell,
+              PhosphorIcons.regular.magnifyingGlass,
               color: blackColor,
             ),
             SizedBox(
-              width: padding / 2,
+              width: padding,
             ),
-            PhosphorIcon(
-              PhosphorIcons.regular.heart,
-              color: blackColor,
+            GestureDetector(
+              child: PhosphorIcon(
+                PhosphorIcons.regular.shoppingCartSimple,
+                color: blackColor,
+              ),
+              onTap: () {
+                UpDownNavigation()
+                    .navigateToPage(context, page: const CartPage());
+              },
             ),
             SizedBox(
               width: padding,
             )
           ],
-          elevation: 0,
-          toolbarHeight: 40,
+          elevation: 1,
+          // toolbarHeight: 40,
         ),
         body: FutureBuilder(
             future: homePageController.getHomePage(),
