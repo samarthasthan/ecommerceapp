@@ -127,7 +127,7 @@ class WishListGrid extends StatelessWidget {
                         ),
                         Paragraph(
                           text: "₹${wishList[index].salePrice}",
-                          weight: FontWeight.normal,
+                          weight: FontWeight.w200,
                         ),
                         SizedBox(
                           width: textPadding,

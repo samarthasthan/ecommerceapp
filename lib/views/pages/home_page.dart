@@ -52,8 +52,7 @@ class _HomePageState extends State<HomePage>
                 color: blackColor,
               ),
               onTap: () {
-                UpDownNavigation()
-                    .navigateToPage(context, page: const CartPage());
+                UpDownNavigation().navigateToPage(context, page: CartPage());
               },
             ),
             SizedBox(

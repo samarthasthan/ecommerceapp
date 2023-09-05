@@ -7,26 +7,138 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class CartController extends GetxController {
-  Future<List<CartModel>> getCartPage() async {
-    var token = await APICacheManager().getCacheData("login_token");
-    var headers = {
-      'Authorization': 'Bearer ${token.syncData}',
-    };
+  RxList<CartModel> cartItems = RxList<CartModel>.empty();
+  late RxDouble totalMRP = 0.0.obs;
+  late RxDouble totalDiscount = 0.0.obs;
 
-    // Include the 'email' query parameter in the URL
-    var url = Uri.parse('$baseUrl/cart');
+  Future<RxList<CartModel>> getCartPage() async {
+    try {
+      // Reset values
+      totalMRP.value = 0;
+      totalDiscount.value = 0;
+      var token = await APICacheManager().getCacheData("login_token");
+      var headers = {
+        'Authorization': 'Bearer ${token.syncData}',
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+      };
 
-    var res = await http.get(url, headers: headers);
+      var url = Uri.parse('$baseUrl/cart');
 
-    if (res.statusCode != 200) {
-      throw Exception('http.get error: statusCode= ${res.statusCode}');
+      var res = await http.get(url, headers: headers);
+
+      if (res.statusCode == 200) {
+        List<dynamic> jsonList = json.decode(res.body);
+        cartItems = RxList<CartModel>(
+            jsonList.map((jsonItem) => CartModel.fromJson(jsonItem)).toList());
+
+        for (var cartitem in cartItems) {
+          cartitem.allVariationItems?.forEach((variationItem) {
+            if (variationItem.variationItemId == cartitem.currentVariation) {
+              totalMRP.value +=
+                  variationItem.regularPrice! * cartitem.quantity!.toInt();
+              totalDiscount.value +=
+                  (variationItem.regularPrice! - variationItem.salePrice!) *
+                      cartitem.quantity!.toInt();
+            }
+          });
+        }
+        return cartItems;
+      } else {
+        throw Exception('http.get error: statusCode= ${res.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
     }
+  }
 
-    // Parse the list of items from the JSON array
-    List<dynamic> jsonList = json.decode(res.body);
-    List<CartModel> cartItems =
-        jsonList.map((jsonItem) => CartModel.fromJson(jsonItem)).toList();
+  Future<void> deleteCartItem(String productId) async {
+    try {
+      // Reset values
+      totalMRP.value = 0;
+      totalDiscount.value = 0;
+      var token = await APICacheManager().getCacheData("login_token");
+      var headers = {
+        'Authorization': 'Bearer ${token.syncData}',
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+      };
 
-    return cartItems;
+      var body = {"product_id": productId.toString()};
+
+      var bodyJson = jsonEncode(body);
+
+      var url = Uri.parse('$baseUrl/cart');
+
+      var res = await http.delete(url, headers: headers, body: bodyJson);
+
+      if (res.statusCode == 200) {
+        List<dynamic> jsonList = json.decode(res.body);
+        // Create a new RxList and assign it to cartItems
+        cartItems.assignAll(
+            jsonList.map((jsonItem) => CartModel.fromJson(jsonItem)).toList());
+
+        for (var cartitem in cartItems) {
+          cartitem.allVariationItems?.forEach((variationItem) {
+            if (variationItem.variationItemId == cartitem.currentVariation) {
+              totalMRP.value +=
+                  variationItem.regularPrice! * cartitem.quantity!.toInt();
+              totalDiscount.value +=
+                  (variationItem.regularPrice! - variationItem.salePrice!) *
+                      cartitem.quantity!.toInt();
+            }
+          });
+        }
+      } else {
+        throw Exception('http.delete error: statusCode= ${res.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
+  }
+
+  Future<void> updateCartItem(
+      String productId, int quantity, String variation_item_id) async {
+    try {
+      // Reset values
+      totalMRP.value = 0;
+      totalDiscount.value = 0;
+      var token = await APICacheManager().getCacheData("login_token");
+      var headers = {
+        'Authorization': 'Bearer ${token.syncData}',
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+      };
+
+      var body = {
+        "product_id": productId.toString(),
+        "quantity": quantity,
+        "variation_item_id": variation_item_id
+      };
+
+      var bodyJson = jsonEncode(body);
+
+      var url = Uri.parse('$baseUrl/cart');
+
+      var res = await http.patch(url, headers: headers, body: bodyJson);
+
+      List<dynamic> jsonList = json.decode(res.body);
+      cartItems = RxList<CartModel>(
+          jsonList.map((jsonItem) => CartModel.fromJson(jsonItem)).toList());
+
+      for (var cartitem in cartItems) {
+        cartitem.allVariationItems?.forEach((variationItem) {
+          if (variationItem.variationItemId == cartitem.currentVariation) {
+            totalMRP.value +=
+                variationItem.regularPrice! * cartitem.quantity!.toInt();
+            totalDiscount.value +=
+                (variationItem.regularPrice! - variationItem.salePrice!) *
+                    cartitem.quantity!.toInt();
+          }
+        });
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
   }
 }
