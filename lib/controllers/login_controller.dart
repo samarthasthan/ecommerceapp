@@ -11,13 +11,18 @@ class LoginController extends GetxController {
   Future<bool> login({required String email, required String password}) async {
     var headers = {
       'accept': 'application/json',
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': 'application/json',
     };
 
-    var data = 'email=$email&password=$password';
+    var body = {
+      'email': email,
+      'password': password,
+    };
+    // Convert the body map to JSON format
+    var bodyJson = jsonEncode(body);
 
     var url = Uri.parse(baseUrl + loginUrl);
-    var res = await http.post(url, headers: headers, body: data);
+    var res = await http.post(url, headers: headers, body: bodyJson);
     if (res.statusCode == 200) {
       // Parse the response body into a LoginModel object
       var loginModel = LoginModel.fromJson(json.decode(res.body));

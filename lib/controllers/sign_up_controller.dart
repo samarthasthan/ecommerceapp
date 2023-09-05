@@ -1,4 +1,4 @@
-// ignore_for_file: depend_on_referenced_packages
+import 'dart:convert';
 
 import 'package:ecommerceapp/constants.dart';
 import 'package:get/get.dart';
@@ -14,14 +14,23 @@ class SignUpController extends GetxController {
   }) async {
     var headers = {
       'accept': 'application/json',
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': 'application/json', // Use JSON content type
     };
 
-    var data =
-        'first_name=$firstName&last_name=$lastName&email=$email&phone=$phoneNo&password=$password';
+    var body = {
+      'first_name': firstName,
+      'last_name': lastName,
+      'email': email,
+      'phone': phoneNo.toString(), // Convert phoneNo to a string
+      'password': password,
+    };
+
+    // Convert the body map to JSON format
+    var bodyJson = jsonEncode(body);
 
     var url = Uri.parse(baseUrl + registerUrl);
-    var res = await http.post(url, headers: headers, body: data);
+    var res = await http.post(url, headers: headers, body: bodyJson);
+
     if (res.statusCode != 200) {
       return false;
     }

@@ -1,7 +1,12 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerceapp/constants.dart';
+import 'package:ecommerceapp/controllers/cart_controller.dart';
+import 'package:ecommerceapp/models/cart_page_model.dart';
 import 'package:ecommerceapp/views/widgets/buttons/basic_text_button.dart';
 import 'package:ecommerceapp/views/widgets/texts/paragraph.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // ignore: unused_import
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,240 +29,271 @@ class CartPage extends StatelessWidget {
           color: blackColor,
         ),
       ),
-      body: Stack(children: [
-        SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                color: whiteColor,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: textPadding, vertical: textPadding / 2),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              PhosphorIcons.light.percent,
-                            ),
-                            SizedBox(
-                              width: textPadding,
-                            ),
-                            Paragraph(
-                              text: 'Avialable Offers!',
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: textPadding, vertical: textPadding / 2),
-                        child: Paragraph(
-                          text:
-                              '15% Instant Discount on OneCard Credit Cards on min spend of ₹3,000 TCA.',
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: textPadding, vertical: textPadding / 2),
-                        child: Row(
-                          children: [
-                            Paragraph(
-                              text: 'Show more',
-                              color: lightBlue,
-                            ),
-                            SizedBox(
-                              width: textPadding,
-                            ),
-                            Icon(
-                              PhosphorIcons.light.caretDown,
-                              color: lightBlue,
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: padding / 2,
-              ),
-              ListView.builder(
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: 2,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        const CartItem(),
-                        SizedBox(
-                          height: index != 2 ? padding / 2 : 0,
-                        ),
-                      ],
-                    );
-                  }),
-              SizedBox(
-                height: padding / 2,
-              ),
-              Container(
-                color: whiteColor,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: textPadding, vertical: textPadding / 2),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              PhosphorIcons.light.tag,
-                            ),
-                            SizedBox(
-                              width: textPadding,
-                            ),
-                            Paragraph(
-                              text: 'Apply Coupon',
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: padding / 2,
-              ),
-              Container(
-                color: whiteColor,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Paragraph(
-                        text: 'Price Detials',
-                        weight: FontWeight.bold,
-                      ),
-                      SizedBox(
-                        height: textPadding,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Paragraph(
-                            text: 'Total MRP',
-                          ),
-                          Paragraph(
-                            text: '₹6,064',
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: textPadding,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Paragraph(
-                            text: 'Discount on MRP',
-                          ),
-                          Paragraph(
-                            text: '-₹3,066',
-                            color: greenColor,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: textPadding,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Paragraph(
-                            text: 'Coupon Discount',
-                          ),
-                          Paragraph(
-                            text: 'Apply Coupon',
-                            color: lightBlue,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: textPadding,
-                      ),
-                      const Divider(),
-                      SizedBox(
-                        height: textPadding,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Paragraph(
-                            text: 'Total Amount',
-                            weight: FontWeight.bold,
-                          ),
-                          Paragraph(
-                            text: '₹2,998',
-                            weight: FontWeight.bold,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: textPadding,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: padding * 2.5 + 28.h,
-              ),
-              SizedBox(
-                height: textPadding,
-              ),
-            ],
-          ),
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Container(
-            color: whiteColor,
-            height: padding * 2.5 + 28.h,
-            child: Padding(
-              padding: EdgeInsets.only(
-                  left: 8.0.w, right: 8.0.w, bottom: 20.h, top: 8.0.h),
-              child: BasicTextButton(
-                text: 'Place Order',
-                textColor: whiteColor,
-                backgroundColor: blackColor,
-              ),
-            ),
-          ),
-        ),
-      ]),
+      body: FutureBuilder(
+          future: CartController().getCartPage(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              // Display a loading indicator while waiting for data
+              return const Center(child: CupertinoActivityIndicator());
+            } else if (snapshot.hasError) {
+              // Display an error message if an error occurred
+              return Text('Error: ${snapshot.error}');
+            } else if (snapshot.hasData) {
+              // Display the data once it's available
+              return CartItems(
+                cartList: snapshot.data!,
+              ); // Replace with your widget
+            } else {
+              // Default fallback, you can customize this case
+              return const Text('No data available.');
+            }
+          }),
     );
   }
 }
 
+class CartItems extends StatelessWidget {
+  CartItems({super.key, required this.cartList});
+
+  List<CartModel> cartList;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(children: [
+      SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              color: whiteColor,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: textPadding, vertical: textPadding / 2),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            PhosphorIcons.light.percent,
+                          ),
+                          SizedBox(
+                            width: textPadding,
+                          ),
+                          Paragraph(
+                            text: 'Avialable Offers!',
+                          )
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: textPadding, vertical: textPadding / 2),
+                      child: Paragraph(
+                        text:
+                            '15% Instant Discount on OneCard Credit Cards on min spend of ₹3,000 TCA.',
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: textPadding, vertical: textPadding / 2),
+                      child: Row(
+                        children: [
+                          Paragraph(
+                            text: 'Show more',
+                            color: lightBlue,
+                          ),
+                          SizedBox(
+                            width: textPadding,
+                          ),
+                          Icon(
+                            PhosphorIcons.light.caretDown,
+                            color: lightBlue,
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: padding / 2,
+            ),
+            ListView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: cartList.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      CartItem(
+                        item: cartList[index],
+                      ),
+                      SizedBox(
+                        height: index != 2 ? padding / 2 : 0,
+                      ),
+                    ],
+                  );
+                }),
+            SizedBox(
+              height: padding / 2,
+            ),
+            Container(
+              color: whiteColor,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: textPadding, vertical: textPadding / 2),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            PhosphorIcons.light.tag,
+                          ),
+                          SizedBox(
+                            width: textPadding,
+                          ),
+                          Paragraph(
+                            text: 'Apply Coupon',
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: padding / 2,
+            ),
+            Container(
+              color: whiteColor,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Paragraph(
+                      text: 'Price Detials',
+                      weight: FontWeight.bold,
+                    ),
+                    SizedBox(
+                      height: textPadding,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Paragraph(
+                          text: 'Total MRP',
+                        ),
+                        Paragraph(
+                          text: '₹6,064',
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: textPadding,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Paragraph(
+                          text: 'Discount on MRP',
+                        ),
+                        Paragraph(
+                          text: '-₹3,066',
+                          color: greenColor,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: textPadding,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Paragraph(
+                          text: 'Coupon Discount',
+                        ),
+                        Paragraph(
+                          text: 'Apply Coupon',
+                          color: lightBlue,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: textPadding,
+                    ),
+                    const Divider(),
+                    SizedBox(
+                      height: textPadding,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Paragraph(
+                          text: 'Total Amount',
+                          weight: FontWeight.bold,
+                        ),
+                        Paragraph(
+                          text: '₹2,998',
+                          weight: FontWeight.bold,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: textPadding,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: padding * 2.5 + 28.h,
+            ),
+            SizedBox(
+              height: textPadding,
+            ),
+          ],
+        ),
+      ),
+      Align(
+        alignment: Alignment.bottomCenter,
+        child: Container(
+          color: whiteColor,
+          height: padding * 2.5 + 28.h,
+          child: Padding(
+            padding: EdgeInsets.only(
+                left: 8.0.w, right: 8.0.w, bottom: 20.h, top: 8.0.h),
+            child: BasicTextButton(
+              text: 'Place Order',
+              textColor: whiteColor,
+              backgroundColor: blackColor,
+            ),
+          ),
+        ),
+      ),
+    ]);
+  }
+}
+
 class CartItem extends StatelessWidget {
-  const CartItem({
-    super.key,
-  });
+  CartItem({super.key, required this.item});
+
+  CartModel item;
 
   @override
   Widget build(BuildContext context) {
@@ -268,10 +304,7 @@ class CartItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           CachedNetworkImage(
-              height: 140.h,
-              fit: BoxFit.cover,
-              imageUrl:
-                  'https://assets.myntassets.com/h_1440,q_90,w_1080/v1/assets/images/10106341/2019/9/5/e5bd4bb5-b746-44b1-92fd-1b20906c60031567656798859-HRX-by-Hrithik-Roshan-Men-Tshirts-5601567656797772-1.jpg'),
+              height: 140.h, fit: BoxFit.cover, imageUrl: item.productImage!),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -289,7 +322,7 @@ class CartItem extends StatelessWidget {
                   height: textPadding,
                 ),
                 Paragraph(
-                  text: 'Ultralyte Men Black Running T-shirt',
+                  text: item.productName,
                 ),
                 SizedBox(
                   height: textPadding,
@@ -325,21 +358,22 @@ class CartItem extends StatelessWidget {
                 Row(
                   children: [
                     Paragraph(
-                      text: '₹1,499',
+                      text: "₹${item.allVariationItems![0].salePrice}",
                       weight: FontWeight.bold,
                     ),
                     SizedBox(
                       width: textPadding,
                     ),
                     Paragraph(
-                      text: '₹3,032',
+                      text: "₹${item.allVariationItems![0].regularPrice}",
                       weight: FontWeight.w200,
                     ),
                     SizedBox(
                       width: textPadding,
                     ),
                     Paragraph(
-                      text: '64% OFF',
+                      text:
+                          "${(((item.allVariationItems![0].regularPrice!.toInt() - item.allVariationItems![0].salePrice!.toInt()) / item.allVariationItems![0].salePrice!.toInt()) * 100).toInt()}%",
                       weight: FontWeight.normal,
                       color: greenColor,
                     ),

@@ -18,7 +18,7 @@ class DynamicPageController extends GetxController {
     };
     var query = params.entries.map((p) => '${p.key}=${p.value}').join('&');
 
-    var url = Uri.parse('$baseUrl/app/pages/title?$query');
+    var url = Uri.parse('$baseUrl/app/page?$query');
     var res = await http.get(url, headers: headers);
     if (res.statusCode != 200) {
       throw Exception('http.get error: statusCode= ${res.statusCode}');

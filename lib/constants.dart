@@ -31,11 +31,12 @@ final TextEditingController baseUrlController = TextEditingController();
 
 //Urls
 
-String baseUrl = "http://13.127.83.79";
+String baseUrl = "https://9c3c-117-212-40-12.ngrok-free.app";
+// String baseUrl = "http://13.127.83.79";
 const String registerUrl = "/register";
 const String verifyOTPUrl = '/verify-otp';
 const String loginUrl = '/login';
-const String verifyTokenUrl = '/protected-resource';
+const String verifyTokenUrl = '/check-token';
 
 // Dynamic Pages Titles
 
