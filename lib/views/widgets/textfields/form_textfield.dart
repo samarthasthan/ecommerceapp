@@ -31,12 +31,13 @@ class FormTextField extends StatelessWidget {
         obscureText: isSecret.isNull ? false : isSecret!,
         decoration: InputDecoration(
           labelText: text,
-          labelStyle: const TextStyle(
+          labelStyle: TextStyle(
             fontWeight: FontWeight.bold,
             color: blackColor,
+            fontSize: 12.sp,
           ),
           enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: blackColor, width: 1.h),
+            borderSide: BorderSide(color: greyColor, width: 1.h),
           ),
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: blackColor, width: 1.h),

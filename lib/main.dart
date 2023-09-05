@@ -1,9 +1,9 @@
 import 'package:api_cache_manager/utils/cache_manager.dart';
+import 'package:ecommerceapp/constants.dart';
 import 'package:ecommerceapp/controllers/token_verify.dart';
 import 'package:ecommerceapp/main_menu.dart';
 import 'package:ecommerceapp/views/boarding/onboard_page.dart';
 // ignore: unused_import
-import 'package:ecommerceapp/views/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
@@ -32,6 +32,9 @@ class FruBayAppAuth extends StatelessWidget {
       builder: (context, child) {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+              scaffoldBackgroundColor: greyBackground,
+              iconTheme: IconThemeData(size: 20.sp)),
           home: StartPage(),
         );
       },
@@ -47,9 +50,12 @@ class FruBayAppHome extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       builder: (context, child) {
-        return const GetMaterialApp(
+        return GetMaterialApp(
+          theme: ThemeData(
+              scaffoldBackgroundColor: greyBackground,
+              iconTheme: IconThemeData(size: 20.sp)),
           debugShowCheckedModeBanner: false,
-          home: MainMenu(),
+          home: const MainMenu(),
         );
       },
     );

@@ -1,7 +1,8 @@
 import 'package:ecommerceapp/constants.dart';
-import 'package:ecommerceapp/views/account_page.dart';
-import 'package:ecommerceapp/views/home_page.dart';
-import 'package:ecommerceapp/views/profile_page.dart';
+import 'package:ecommerceapp/views/pages/account_page.dart';
+import 'package:ecommerceapp/views/pages/category_page.dart';
+import 'package:ecommerceapp/views/pages/home_page.dart';
+import 'package:ecommerceapp/views/pages/wishlist_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -21,8 +22,8 @@ class _MainMenuState extends State<MainMenu> {
   int currentIndex = 0;
   final tabPages = [
     const HomePage(),
-    const ProfilePage(),
-    const ProfilePage(),
+    const CategoryPage(),
+    const WishListPage(),
     const AccountPage(),
   ];
 
@@ -73,42 +74,42 @@ class _MainMenuState extends State<MainMenu> {
             items: [
               BottomNavigationBarItem(
                 icon: PhosphorIcon(
-                  PhosphorIcons.regular.house,
-                  color: blackColor,
+                  PhosphorIcons.light.house,
+                  color: greyColor,
                 ),
                 label: "Home",
                 activeIcon: PhosphorIcon(
-                  PhosphorIcons.fill.house,
+                  PhosphorIcons.regular.house,
                   color: blackColor,
                 ),
               ),
               BottomNavigationBarItem(
                   icon: PhosphorIcon(
-                    PhosphorIcons.regular.squaresFour,
-                    color: blackColor,
+                    PhosphorIcons.light.squaresFour,
+                    color: greyColor,
                   ),
                   activeIcon: PhosphorIcon(
-                    PhosphorIcons.fill.squaresFour,
+                    PhosphorIcons.regular.squaresFour,
                     color: blackColor,
                   ),
                   label: "Category"),
               BottomNavigationBarItem(
                   icon: PhosphorIcon(
-                    PhosphorIcons.regular.heart,
-                    color: blackColor,
+                    PhosphorIcons.light.heart,
+                    color: greyColor,
                   ),
                   activeIcon: PhosphorIcon(
-                    PhosphorIcons.fill.heart,
+                    PhosphorIcons.regular.heart,
                     color: blackColor,
                   ),
                   label: "Wishlist"),
               BottomNavigationBarItem(
                   icon: PhosphorIcon(
-                    PhosphorIcons.regular.userCircle,
-                    color: blackColor,
+                    PhosphorIcons.light.userCircle,
+                    color: greyColor,
                   ),
                   activeIcon: PhosphorIcon(
-                    PhosphorIcons.fill.userCircle,
+                    PhosphorIcons.regular.userCircle,
                     color: blackColor,
                   ),
                   label: "Account"),

@@ -1,9 +1,10 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:ecommerceapp/constants.dart';
-import 'package:ecommerceapp/controllers/login_controller.dart';
+import 'package:ecommerceapp/controllers/nagivation_animations/up_down_navigation.dart';
+import 'package:ecommerceapp/controllers/sign_up_controller.dart';
 import 'package:ecommerceapp/controllers/utils.dart';
-import 'package:ecommerceapp/main_menu.dart';
+import 'package:ecommerceapp/views/auth/verify_mail_page.dart';
 import 'package:ecommerceapp/views/widgets/buttons/basic_text_button.dart';
 import 'package:ecommerceapp/views/widgets/textfields/form_textfield.dart';
 import 'package:ecommerceapp/views/widgets/texts/big_heading.dart';
@@ -13,12 +14,13 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class EditAddressPage extends StatelessWidget {
+  EditAddressPage({super.key});
 
   RxBool isAnyTextFieldEmpty = false.obs;
   RxBool isLoading = false.obs;
-  LoginController logInController = Get.put(LoginController());
+  SignUpController signUpController = Get.put(SignUpController());
+  String gender = '';
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +73,7 @@ class LoginPage extends StatelessWidget {
                           (BuildContext context, double value, Widget? child) {
                         return BigHeading(
                           size: value,
-                          text: "Log In",
+                          text: "Edit address",
                           weight: FontWeight.bold,
                         );
                       },
@@ -82,60 +84,91 @@ class LoginPage extends StatelessWidget {
                     Row(
                       children: [
                         Paragraph(
-                          text: "Don't have account?",
+                          text: "Want new address?",
                         ),
                         SizedBox(
                           width: padding / 4,
                         ),
                         Paragraph(
-                          text: "Create Now",
+                          text: "Create now",
                           color: lightBlue,
                           decoration: TextDecoration.underline,
                         ),
                       ],
-                    ),
-                    SizedBox(
-                      height: padding,
-                    ),
-                    FormTextField(
-                      text: "Email",
-                      controller: emailController,
-                      onChange: (value) => isAnyTextFieldEmpty.value =
-                          _checkIfAnyTextFieldIsEmpty(),
-                    ),
-                    SizedBox(
-                      height: padding,
-                    ),
-                    FormTextField(
-                      text: "Password",
-                      controller: passwordController,
-                      isSecret: true,
-                      onChange: (value) => isAnyTextFieldEmpty.value =
-                          _checkIfAnyTextFieldIsEmpty(),
                     ),
                     SizedBox(
                       height: padding,
                     ),
                     Row(
                       children: [
-                        Paragraph(
-                          color: blackColor,
-                          text: "Forgot password?",
+                        FormTextField(
+                          text: 'First Name',
                         ),
                         SizedBox(
-                          width: padding / 4,
+                          width: padding,
+                        ),
+                        FormTextField(
+                          text: 'Last Name',
+                        ),
+                      ],
+                    ),
+                    FormTextField(
+                      text: 'Phone number',
+                    ),
+                    Row(
+                      children: [
+                        FormTextField(
+                          text: 'Pincode',
+                        ),
+                        SizedBox(
+                          width: padding,
+                        ),
+                        FormTextField(
+                          text: 'State',
+                        ),
+                      ],
+                    ),
+                    FormTextField(
+                      text: 'Address (House No, Building, Street, Area)',
+                    ),
+                    FormTextField(
+                      text: 'Locality/ Town',
+                    ),
+                    FormTextField(
+                      text: 'City/ District',
+                    ),
+                    Row(
+                      children: [
+                        Radio(
+                          value: "male",
+                          groupValue: gender,
+                          onChanged: (value) {},
                         ),
                         Paragraph(
-                          color: lightBlue,
-                          text: "Forgot it",
-                          decoration: TextDecoration.underline,
+                          text: 'Home',
+                        ),
+                        Radio(
+                          value: "female",
+                          groupValue: gender,
+                          onChanged: (value) {},
+                        ),
+                        Paragraph(
+                          text: 'Office',
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Checkbox(value: false, onChanged: (value) {}),
+                        Paragraph(
+                          text: 'Mark this as deault address',
                         ),
                       ],
                     ),
                     TweenAnimationBuilder<double>(
                       tween: Tween<double>(
-                        begin: isKeyboardVisible ? 24.70 : 9.1,
-                        end: isKeyboardVisible ? 9.1 : 24.70,
+                        begin: isKeyboardVisible ? 8.70 : 1.5,
+                        end: isKeyboardVisible ? 1.5 : 8.70,
                       ),
                       duration: const Duration(milliseconds: 200),
                       curve: Curves
@@ -158,26 +191,24 @@ class LoginPage extends StatelessWidget {
                           onTap: () async {
                             isLoading.value = true;
                             FocusManager.instance.primaryFocus?.unfocus();
-                            bool logInSuccess = await logInController.login(
+                            bool signUpSuccess = await signUpController.signUp(
+                              firstName: firstNameController.text,
+                              lastName: lastNameController.text,
                               email: emailController.text,
+                              phoneNo: int.parse(phoneNumberController.text),
                               password: passwordController.text,
                             );
                             isLoading.value = false;
 
-                            if (logInSuccess) {
+                            if (signUpSuccess) {
                               // ignore: use_build_context_synchronously
-                              Navigator.pushAndRemoveUntil(context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) {
-                                return const MainMenu();
-                              }), (r) {
-                                return false;
-                              });
+                              UpDownNavigation().navigateToPage(context,
+                                  page: VerifyMailPage());
                             }
                           },
                           child: isLoading.value == false
                               ? BasicTextButton(
-                                  text: "Log In",
+                                  text: "Confirm and continue",
                                   backgroundColor: isAnyTextFieldEmpty.value
                                       ? greyColor
                                       : blackColor,
@@ -213,6 +244,10 @@ class LoginPage extends StatelessWidget {
   }
 
   bool _checkIfAnyTextFieldIsEmpty() {
-    return emailController.text.isEmpty || passwordController.text.isEmpty;
+    return firstNameController.text.isEmpty ||
+        lastNameController.text.isEmpty ||
+        emailController.text.isEmpty ||
+        phoneNumberController.text.isEmpty ||
+        passwordController.text.isEmpty;
   }
 }

@@ -6,11 +6,13 @@ import 'package:ecommerceapp/constants.dart';
 import 'package:ecommerceapp/controllers/delete_account_controller.dart';
 import 'package:ecommerceapp/controllers/nagivation_animations/up_down_navigation.dart';
 import 'package:ecommerceapp/views/boarding/onboard_page.dart';
+import 'package:ecommerceapp/views/pages/address_page.dart';
 import 'package:ecommerceapp/views/widgets/buttons/basic_text_button.dart';
 import 'package:ecommerceapp/views/widgets/texts/big_heading.dart';
 import 'package:ecommerceapp/views/widgets/texts/paragraph.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class AccountPage extends StatelessWidget {
@@ -19,7 +21,6 @@ class AccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: whiteColor,
       appBar: AppBar(
         centerTitle: false,
         backgroundColor: whiteColor,
@@ -36,7 +37,7 @@ class AccountPage extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(padding),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   ClipRRect(
@@ -86,53 +87,50 @@ class AccountPage extends StatelessWidget {
                 ],
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: Divider(),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: padding),
+              child: const Divider(),
             ),
             AccountPageItems(
               title: 'Orders',
               description: 'Find order updates, return & cancellations',
-              icon: PhosphorIcons.regular.cube,
+              icon: PhosphorIcons.light.cube,
+              page: AddressPage(),
             ),
             AccountPageItems(
               title: 'Rate my orders',
               description: 'Help other shoppers',
-              icon: PhosphorIcons.regular.star,
-            ),
-            AccountPageItems(
-              title: 'Wishlist',
-              description: 'Save & view your favourites here',
-              icon: PhosphorIcons.regular.heart,
+              icon: PhosphorIcons.light.star,
+              page: AddressPage(),
             ),
             AccountPageItems(
               title: 'Chat with us',
               description:
                   'Chat assistance for orders, refunds & cancellations',
-              icon: PhosphorIcons.regular.chatCircle,
+              icon: PhosphorIcons.light.chatCircle,
+              page: AddressPage(),
             ),
             AccountPageItems(
               title: 'Help Center',
               description: 'Raise a concern or read our FAQs',
-              icon: PhosphorIcons.regular.info,
-            ),
-            AccountPageItems(
-              title: 'Profile',
-              description: 'Manage your profile information',
-              icon: PhosphorIcons.regular.user,
+              icon: PhosphorIcons.light.info,
+              page: AddressPage(),
             ),
             AccountPageItems(
               title: 'Addresses',
               description: 'Manage your addresses here',
-              icon: PhosphorIcons.regular.houseLine,
+              icon: PhosphorIcons.light.houseLine,
+              page: AddressPage(),
             ),
             AccountPageItems(
               title: 'Payments methods',
               description: 'Manage your saved payments methods',
-              icon: PhosphorIcons.regular.creditCard,
+              icon: PhosphorIcons.light.creditCard,
+              page: AddressPage(),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: padding),
+              padding: EdgeInsets.symmetric(
+                  horizontal: padding, vertical: padding / 2),
               child: Column(
                 children: [
                   GestureDetector(
@@ -181,43 +179,57 @@ class AccountPageItems extends StatelessWidget {
       {super.key,
       required this.icon,
       required this.title,
-      required this.description});
+      required this.description,
+      required this.page});
 
   IconData icon;
   String title;
   String description;
+  Widget page;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding:
-          EdgeInsets.symmetric(horizontal: padding, vertical: padding / 1.3),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return GestureDetector(
+      onTap: () {
+        Get.to(() => page);
+      },
+      child: SizedBox(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: padding),
+          child: Column(
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              SizedBox(
+                height: padding / 2,
+              ),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Paragraph(
-                    text: title,
-                    weight: FontWeight.bold,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Paragraph(
+                        text: title,
+                        weight: FontWeight.bold,
+                      ),
+                      Paragraph(
+                        text: description,
+                      ),
+                    ],
                   ),
-                  Paragraph(
-                    text: description,
+                  Icon(
+                    icon,
                   ),
                 ],
               ),
-              Icon(
-                icon,
+              SizedBox(
+                height: padding / 2,
               ),
+              const Divider()
             ],
           ),
-          const Divider()
-        ],
+        ),
       ),
     );
   }

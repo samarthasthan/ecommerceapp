@@ -15,8 +15,7 @@ class BasicTextButton extends StatelessWidget {
         width: double.infinity,
         height: padding * 2.5,
         decoration: BoxDecoration(
-            color: backgroundColor,
-            borderRadius: BorderRadius.circular(padding / 3)),
+            color: backgroundColor, borderRadius: BorderRadius.circular(curve)),
         child: Center(
           child: Paragraph(
             text: text,

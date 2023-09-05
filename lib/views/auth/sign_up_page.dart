@@ -147,8 +147,8 @@ class SignUpPage extends StatelessWidget {
                     ),
                     TweenAnimationBuilder<double>(
                       tween: Tween<double>(
-                        begin: isKeyboardVisible ? 16.70 : 1.5,
-                        end: isKeyboardVisible ? 1.5 : 16.70,
+                        begin: isKeyboardVisible ? 17.90 : 2.5,
+                        end: isKeyboardVisible ? 2.5 : 17.90,
                       ),
                       duration: const Duration(milliseconds: 200),
                       curve: Curves

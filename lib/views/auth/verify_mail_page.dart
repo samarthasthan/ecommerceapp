@@ -130,8 +130,8 @@ class VerifyMailPage extends StatelessWidget {
                     ),
                     TweenAnimationBuilder<double>(
                       tween: Tween<double>(
-                        begin: isKeyboardVisible ? 28.0 : 13.0,
-                        end: isKeyboardVisible ? 13.0 : 28.0,
+                        begin: isKeyboardVisible ? 29.0 : 13.3,
+                        end: isKeyboardVisible ? 13.3 : 29.0,
                       ),
                       duration: const Duration(milliseconds: 200),
                       curve: Curves

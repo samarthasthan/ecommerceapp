@@ -3,71 +3,45 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecommerceapp/constants.dart';
-import 'package:ecommerceapp/controllers/home_page_contoller.dart';
+import 'package:ecommerceapp/controllers/dynamic_page_contoller.dart';
 // ignore: unused_import
 import 'package:ecommerceapp/controllers/main_menu_controller.dart';
-import 'package:ecommerceapp/controllers/nagivation_animations/up_down_navigation.dart';
-import 'package:ecommerceapp/models/homepage/home_page_widgets.dart';
-import 'package:ecommerceapp/models/homepage/home_page_model.dart';
-import 'package:ecommerceapp/views/cart_page.dart';
-import 'package:ecommerceapp/views/widgets/texts/big_heading.dart';
+import 'package:ecommerceapp/models/homepage/dynamic_page_widgets.dart';
+import 'package:ecommerceapp/models/homepage/dynamic_page_model.dart';
 import 'package:ecommerceapp/views/widgets/texts/paragraph.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class CategoryPage extends StatefulWidget {
+  const CategoryPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<CategoryPage> createState() => _CategoryPageState();
 }
 
-class _HomePageState extends State<HomePage>
+class _CategoryPageState extends State<CategoryPage>
     with AutomaticKeepAliveClientMixin {
-  final HomePageController homePageController = Get.put(HomePageController());
+  final DynamicPageController homePageController =
+      Get.put(DynamicPageController());
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: whiteColor,
           centerTitle: false,
-          title: BigHeading(
-            text: "FruBay",
-            color: blackColor,
-            weight: FontWeight.w900,
-          ),
-          actions: [
-            PhosphorIcon(
-              PhosphorIcons.regular.magnifyingGlass,
-              color: blackColor,
-            ),
-            SizedBox(
-              width: padding,
-            ),
-            GestureDetector(
-              child: PhosphorIcon(
-                PhosphorIcons.regular.shoppingCartSimple,
-                color: blackColor,
-              ),
-              onTap: () {
-                UpDownNavigation()
-                    .navigateToPage(context, page: const CartPage());
-              },
-            ),
-            SizedBox(
-              width: padding,
-            )
-          ],
+          backgroundColor: whiteColor,
           elevation: 1,
-          // toolbarHeight: 40,
+          title: Paragraph(
+            text: "Catgory",
+            color: blackColor,
+            weight: FontWeight.bold,
+          ),
         ),
         body: FutureBuilder(
-            future: homePageController.getHomePage(),
+            future: homePageController.getDynamicPage(categoryPageTitle),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 // Display a loading indicator while waiting for data
@@ -92,7 +66,7 @@ class _HomePageState extends State<HomePage>
 
 class HomePageList extends StatelessWidget {
   HomePageList({super.key, required this.data});
-  HomePageModel data;
+  DynamicPageModel data;
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -101,17 +75,26 @@ class HomePageList extends StatelessWidget {
         itemBuilder: (context, index) {
           if (data.widgets![index].widgetType == 'Banner') {
             return HomePageBanner(
-              data: HomePageWidgetModel.fromJson(data.widgets![index].toJson()),
+              data: DynamicPageWidgetModel.fromJson(
+                  data.widgets![index].toJson()),
             );
           }
           if (data.widgets![index].widgetType == 'ListView') {
             return HomePageListView(
-              data: HomePageWidgetModel.fromJson(data.widgets![index].toJson()),
+              data: DynamicPageWidgetModel.fromJson(
+                  data.widgets![index].toJson()),
             );
           }
           if (data.widgets![index].widgetType == 'Slidder') {
             return HomePageImageSlider(
-              data: HomePageWidgetModel.fromJson(data.widgets![index].toJson()),
+              data: DynamicPageWidgetModel.fromJson(
+                  data.widgets![index].toJson()),
+            );
+          }
+          if (data.widgets![index].widgetType == 'VeriticalListView') {
+            return HomePageVerticalListView(
+              data: DynamicPageWidgetModel.fromJson(
+                  data.widgets![index].toJson()),
             );
           } else {
             return Paragraph(
@@ -124,7 +107,7 @@ class HomePageList extends StatelessWidget {
 
 class HomePageBanner extends StatelessWidget {
   HomePageBanner({super.key, required this.data});
-  HomePageWidgetModel data;
+  DynamicPageWidgetModel data;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -149,7 +132,7 @@ class HomePageBanner extends StatelessWidget {
 
 class HomePageListView extends StatelessWidget {
   HomePageListView({super.key, required this.data});
-  HomePageWidgetModel data;
+  DynamicPageWidgetModel data;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -180,9 +163,43 @@ class HomePageListView extends StatelessWidget {
   }
 }
 
+class HomePageVerticalListView extends StatelessWidget {
+  HomePageVerticalListView({super.key, required this.data});
+  DynamicPageWidgetModel data;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        data.hasHeader == true
+            ? CachedNetworkImage(
+                imageUrl: data.header.toString(),
+                fit: BoxFit.cover,
+                width: double.infinity,
+              )
+            : const SizedBox(),
+        SizedBox(
+          child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount: data.widgetItems!.length,
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return CachedNetworkImage(
+                  imageUrl: data.widgetItems![index].url.toString(),
+                  fit: BoxFit.cover,
+                  height: data.itemsHeight!.h,
+                  width: data.itemsWidth!.w,
+                );
+              }),
+        ),
+      ],
+    );
+  }
+}
+
 class HomePageImageSlider extends StatelessWidget {
   HomePageImageSlider({super.key, required this.data});
-  HomePageWidgetModel data;
+  DynamicPageWidgetModel data;
 
   @override
   Widget build(BuildContext context) {

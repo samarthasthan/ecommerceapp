@@ -1,4 +1,30 @@
-class HomePageWidgetModel {
+class DynamicPageModel {
+  String? pageTitle;
+  List<Widgets>? widgets;
+
+  DynamicPageModel({this.pageTitle, this.widgets});
+
+  DynamicPageModel.fromJson(Map<String, dynamic> json) {
+    pageTitle = json['page_title'];
+    if (json['widgets'] != null) {
+      widgets = <Widgets>[];
+      json['widgets'].forEach((v) {
+        widgets!.add(Widgets.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['page_title'] = pageTitle;
+    if (widgets != null) {
+      data['widgets'] = widgets!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Widgets {
   String? widgetTitle;
   String? widgetType;
   int? rank;
@@ -10,7 +36,7 @@ class HomePageWidgetModel {
   double? itemsWidth;
   List<WidgetItems>? widgetItems;
 
-  HomePageWidgetModel(
+  Widgets(
       {this.widgetTitle,
       this.widgetType,
       this.rank,
@@ -22,7 +48,7 @@ class HomePageWidgetModel {
       this.itemsWidth,
       this.widgetItems});
 
-  HomePageWidgetModel.fromJson(Map<String, dynamic> json) {
+  Widgets.fromJson(Map<String, dynamic> json) {
     widgetTitle = json['widget_title'];
     widgetType = json['widget_type'];
     rank = json['rank'];

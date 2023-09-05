@@ -3,18 +3,18 @@
 import 'dart:convert';
 
 import 'package:ecommerceapp/constants.dart';
-import 'package:ecommerceapp/models/homepage/home_page_model.dart';
+import 'package:ecommerceapp/models/homepage/dynamic_page_model.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-class HomePageController extends GetxController {
-  Future<HomePageModel> getHomePage() async {
+class DynamicPageController extends GetxController {
+  Future<DynamicPageModel> getDynamicPage(String title) async {
     var headers = {
       'accept': 'application/json',
     };
 
     var params = {
-      'page_title': 'HomePage',
+      'page_title': title,
     };
     var query = params.entries.map((p) => '${p.key}=${p.value}').join('&');
 
@@ -23,7 +23,7 @@ class HomePageController extends GetxController {
     if (res.statusCode != 200) {
       throw Exception('http.get error: statusCode= ${res.statusCode}');
     }
-    print("homepage call");
-    return HomePageModel.fromJson(json.decode(res.body));
+    print("Calling $title API");
+    return DynamicPageModel.fromJson(json.decode(res.body));
   }
 }
