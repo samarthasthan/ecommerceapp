@@ -13,9 +13,6 @@ class CartController extends GetxController {
 
   Future<RxList<CartModel>> getCartPage() async {
     try {
-      // Reset values
-      totalMRP.value = 0;
-      totalDiscount.value = 0;
       var token = await APICacheManager().getCacheData("login_token");
       var headers = {
         'Authorization': 'Bearer ${token.syncData}',
@@ -31,7 +28,9 @@ class CartController extends GetxController {
         List<dynamic> jsonList = json.decode(res.body);
         cartItems = RxList<CartModel>(
             jsonList.map((jsonItem) => CartModel.fromJson(jsonItem)).toList());
-
+// Reset values
+        totalMRP.value = 0;
+        totalDiscount.value = 0;
         for (var cartitem in cartItems) {
           cartitem.allVariationItems?.forEach((variationItem) {
             if (variationItem.variationItemId == cartitem.currentVariation) {
@@ -54,9 +53,6 @@ class CartController extends GetxController {
 
   Future<void> deleteCartItem(String productId) async {
     try {
-      // Reset values
-      totalMRP.value = 0;
-      totalDiscount.value = 0;
       var token = await APICacheManager().getCacheData("login_token");
       var headers = {
         'Authorization': 'Bearer ${token.syncData}',
@@ -77,7 +73,9 @@ class CartController extends GetxController {
         // Create a new RxList and assign it to cartItems
         cartItems.assignAll(
             jsonList.map((jsonItem) => CartModel.fromJson(jsonItem)).toList());
-
+// Reset values
+        totalMRP.value = 0;
+        totalDiscount.value = 0;
         for (var cartitem in cartItems) {
           cartitem.allVariationItems?.forEach((variationItem) {
             if (variationItem.variationItemId == cartitem.currentVariation) {
@@ -100,9 +98,6 @@ class CartController extends GetxController {
   Future<void> updateCartItem(
       String productId, int quantity, String variation_item_id) async {
     try {
-      // Reset values
-      totalMRP.value = 0;
-      totalDiscount.value = 0;
       var token = await APICacheManager().getCacheData("login_token");
       var headers = {
         'Authorization': 'Bearer ${token.syncData}',
@@ -125,7 +120,9 @@ class CartController extends GetxController {
       List<dynamic> jsonList = json.decode(res.body);
       cartItems = RxList<CartModel>(
           jsonList.map((jsonItem) => CartModel.fromJson(jsonItem)).toList());
-
+// Reset values
+      totalMRP.value = 0;
+      totalDiscount.value = 0;
       for (var cartitem in cartItems) {
         cartitem.allVariationItems?.forEach((variationItem) {
           if (variationItem.variationItemId == cartitem.currentVariation) {

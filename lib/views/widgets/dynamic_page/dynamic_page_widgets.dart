@@ -15,7 +15,8 @@ class DynamicPageList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
         itemCount: data.widgets!.length,
-        // padding: EdgeInsets.zero,
+        physics: const BouncingScrollPhysics(),
+        padding: EdgeInsets.zero,
         itemBuilder: (context, index) {
           if (data.widgets![index].widgetType == 'Banner') {
             return DynamicPageBanner(
@@ -34,12 +35,52 @@ class DynamicPageList extends StatelessWidget {
               data: DynamicPageWidgetModel.fromJson(
                   data.widgets![index].toJson()),
             );
+          }
+          if (data.widgets![index].widgetType == 'VeriticalListView') {
+            return DynamicPageVerticalListView(
+              data: DynamicPageWidgetModel.fromJson(
+                  data.widgets![index].toJson()),
+            );
           } else {
             return Paragraph(
               text: data.widgets![index].widgetTitle.toString(),
             );
           }
         });
+  }
+}
+
+class DynamicPageVerticalListView extends StatelessWidget {
+  DynamicPageVerticalListView({super.key, required this.data});
+  DynamicPageWidgetModel data;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        data.hasHeader == true
+            ? CachedNetworkImage(
+                imageUrl: data.header.toString(),
+                fit: BoxFit.cover,
+                width: double.infinity,
+              )
+            : const SizedBox(),
+        SizedBox(
+          child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount: data.widgetItems!.length,
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return CachedNetworkImage(
+                  imageUrl: data.widgetItems![index].url.toString(),
+                  fit: BoxFit.cover,
+                  height: data.itemsHeight!.h,
+                  width: data.itemsWidth!.w,
+                );
+              }),
+        ),
+      ],
+    );
   }
 }
 

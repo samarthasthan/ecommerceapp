@@ -31,6 +31,7 @@ class VerifyMailPage extends StatelessWidget {
             elevation: 0,
             leading: GestureDetector(
               onTap: () {
+                Get.delete<VerifyOTP>;
                 FocusManager.instance.primaryFocus?.unfocus();
                 Navigator.pop(context);
               },

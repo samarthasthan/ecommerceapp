@@ -16,7 +16,10 @@ class BigHeading extends StatelessWidget {
     return Text(
       text!,
       style: TextStyle(
-          fontSize: size ?? headingSize, fontWeight: weight, color: color),
+          fontFamily: primaryBoldFont,
+          fontSize: size ?? headingSize,
+          fontWeight: weight,
+          color: color),
       textAlign: align,
     );
   }

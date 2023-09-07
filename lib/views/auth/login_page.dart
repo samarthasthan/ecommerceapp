@@ -34,6 +34,7 @@ class LoginPage extends StatelessWidget {
         appBar: AppBar(backgroundColor: whiteColor, elevation: 0, actions: [
           GestureDetector(
             onTap: () {
+              Get.delete<LoginController>;
               Navigator.pop(context);
               ClearTextFields().clearAll();
             },

@@ -32,6 +32,7 @@ class AccountPage extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
             Padding(
@@ -66,24 +67,6 @@ class AccountPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        bottom: padding * 2, left: padding * 1.5),
-                    child: Row(
-                      children: [
-                        Paragraph(
-                          text: 'Edit',
-                          color: lightBlue,
-                        ),
-                        SizedBox(width: padding / 8),
-                        Icon(
-                          PhosphorIcons.regular.pencilSimple,
-                          size: padding,
-                          color: lightBlue,
-                        ),
-                      ],
-                    ),
-                  )
                 ],
               ),
             ),
@@ -95,38 +78,38 @@ class AccountPage extends StatelessWidget {
               title: 'Orders',
               description: 'Find order updates, return & cancellations',
               icon: PhosphorIcons.light.cube,
-              page: AddressPage(),
+              page: const AddressPage(),
             ),
             AccountPageItems(
               title: 'Rate my orders',
               description: 'Help other shoppers',
               icon: PhosphorIcons.light.star,
-              page: AddressPage(),
+              page: const AddressPage(),
             ),
             AccountPageItems(
               title: 'Chat with us',
               description:
                   'Chat assistance for orders, refunds & cancellations',
               icon: PhosphorIcons.light.chatCircle,
-              page: AddressPage(),
+              page: const AddressPage(),
             ),
             AccountPageItems(
               title: 'Help Center',
               description: 'Raise a concern or read our FAQs',
               icon: PhosphorIcons.light.info,
-              page: AddressPage(),
+              page: const AddressPage(),
             ),
             AccountPageItems(
               title: 'Addresses',
               description: 'Manage your addresses here',
               icon: PhosphorIcons.light.houseLine,
-              page: AddressPage(),
+              page: const AddressPage(),
             ),
             AccountPageItems(
               title: 'Payments methods',
               description: 'Manage your saved payments methods',
               icon: PhosphorIcons.light.creditCard,
-              page: AddressPage(),
+              page: const AddressPage(),
             ),
             Padding(
               padding: EdgeInsets.symmetric(
@@ -151,6 +134,7 @@ class AccountPage extends StatelessWidget {
                   GestureDetector(
                     onTap: () async {
                       await DeleteAccount().delete();
+                      Get.delete<DeleteAccount>;
                       UpDownNavigation()
                           .navigateToPage(context, page: StartPage());
                     },

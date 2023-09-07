@@ -6,19 +6,22 @@ const onBoardColor2 = Color(0xffeadefe);
 const onBoardColor3 = Color(0xfffae1c3);
 const onBoardColor4 = Color(0xffd1feda);
 const lightBlue = Color(0xff0171db);
-const redColor = Color.fromARGB(255, 255, 0, 0);
+const redColor = Color(0xfff44e4e);
 const greenColor = Color.fromARGB(255, 0, 193, 26);
 
-const whiteColor = Colors.white;
-const blackColor = Colors.black;
+const backgroundColor = Colors.white;
+const whiteColor = backgroundColor;
+const blackColor = Color(0xff16161e);
 const greyColor = Colors.grey;
-const greyBackground = Color(0xffF5F5F5);
 
 var textPadding = 5.sp;
 var padding = 15.sp;
-var curve = 5.sp;
+var curve = 0.sp;
 var paragraphSize = 12.sp;
 var headingSize = 15.sp;
+
+String primaryFont = 'Gilroy-Medium';
+String primaryBoldFont = 'Gilroy-Medium';
 
 final TextEditingController firstNameController = TextEditingController();
 final TextEditingController lastNameController = TextEditingController();
@@ -31,7 +34,7 @@ final TextEditingController baseUrlController = TextEditingController();
 
 //Urls
 
-String baseUrl = "https://9c3c-117-212-40-12.ngrok-free.app";
+String baseUrl = "https://ff73-59-94-173-242.ngrok-free.app";
 // String baseUrl = "http://13.127.83.79";
 const String registerUrl = "/register";
 const String verifyOTPUrl = '/verify-otp';

@@ -4,23 +4,24 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerceapp/constants.dart';
 import 'package:ecommerceapp/controllers/cart_controller.dart';
 import 'package:ecommerceapp/models/cart_page_model.dart';
+import 'package:ecommerceapp/views/pages/sku_page.dart';
 import 'package:ecommerceapp/views/widgets/buttons/basic_text_button.dart';
+import 'package:ecommerceapp/views/widgets/loading.dart';
 import 'package:ecommerceapp/views/widgets/texts/paragraph.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // ignore: unused_import
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class CartPage extends StatelessWidget {
   CartPage({super.key});
-
   CartController cartController = Get.put(CartController());
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         elevation: 1,
         centerTitle: false,
@@ -34,6 +35,7 @@ class CartPage extends StatelessWidget {
         leading: GestureDetector(
           onTap: () {
             Get.back();
+            Get.delete<CartController>();
           },
           child: Icon(PhosphorIcons.light.caretLeft),
         ),
@@ -43,7 +45,7 @@ class CartPage extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               // Display a loading indicator while waiting for data
-              return const Center(child: CupertinoActivityIndicator());
+              return const Loading();
             } else if (snapshot.hasError) {
               // Display an error message if an error occurred
               return Text('Error: ${snapshot.error}');
@@ -72,6 +74,7 @@ class CartItems extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() => Stack(children: [
           SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
             child: Column(
               children: [
                 Container(
@@ -135,6 +138,7 @@ class CartItems extends StatelessWidget {
                     ),
                   ),
                 ),
+                const Divider(),
                 SizedBox(
                   height: padding / 2,
                 ),
@@ -150,7 +154,9 @@ class CartItems extends StatelessWidget {
                             item: cartController.cartItems[index],
                           ),
                           SizedBox(
-                            height: index != 2 ? padding / 2 : 0,
+                            height: index != cartController.cartItems.length - 1
+                                ? padding / 2
+                                : 0,
                           ),
                         ],
                       );
@@ -158,6 +164,7 @@ class CartItems extends StatelessWidget {
                 SizedBox(
                   height: padding / 2,
                 ),
+                const Divider(),
                 Container(
                   color: whiteColor,
                   child: Padding(
@@ -190,6 +197,7 @@ class CartItems extends StatelessWidget {
                     ),
                   ),
                 ),
+                const Divider(),
                 SizedBox(
                   height: padding / 2,
                 ),
@@ -294,8 +302,7 @@ class CartItems extends StatelessWidget {
                 color: whiteColor,
                 height: padding * 2.5 + 28.h,
                 child: Padding(
-                  padding: EdgeInsets.only(
-                      left: 8.0.w, right: 8.0.w, bottom: 20.h, top: 8.0.h),
+                  padding: EdgeInsets.all(padding),
                   child: BasicTextButton(
                     text: 'Place Order',
                     textColor: whiteColor,
@@ -331,8 +338,17 @@ class CartItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          CachedNetworkImage(
-              height: 140.h, fit: BoxFit.cover, imageUrl: item.productImage!),
+          GestureDetector(
+            onTap: () {
+              Get.to(() => SKUPage(
+                    productId: item.productId!,
+                    skuID: item.skuID!,
+                    title: item.productName!,
+                  ));
+            },
+            child: CachedNetworkImage(
+                height: 140.h, fit: BoxFit.cover, imageUrl: item.productImage!),
+          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -374,15 +390,23 @@ class CartItem extends StatelessWidget {
                 Row(
                   children: [
                     SizedBox(
-                        width: 40.w,
+                        width: 50.w,
                         child: DropdownButtonFormField<String>(
-                          decoration:
-                              const InputDecoration.collapsed(hintText: ''),
+                          decoration: InputDecoration.collapsed(
+                            hintText: '',
+                            hintStyle: GoogleFonts.montserrat(
+                              textStyle: TextStyle(
+                                fontSize: 12.sp,
+                              ),
+                            ),
+                          ),
                           value: selectedSize,
                           items: item.allVariationItems?.map((variationItem) {
                             return DropdownMenuItem<String>(
                               value: variationItem.variationItemName,
-                              child: Text('${variationItem.variationItemName}'),
+                              child: Paragraph(
+                                text: '${variationItem.variationItemName}',
+                              ),
                             );
                           }).toList(),
                           onChanged: (newValue) async {
@@ -405,7 +429,7 @@ class CartItem extends StatelessWidget {
                       width: textPadding,
                     ),
                     SizedBox(
-                      width: 40.w,
+                      width: 50.w,
                       child: DropdownButtonFormField<int>(
                         decoration:
                             const InputDecoration.collapsed(hintText: ''),
@@ -415,7 +439,9 @@ class CartItem extends StatelessWidget {
                           return DropdownMenuItem<int>(
                             value: index +
                                 1, // Assuming you want values from 1 to 10
-                            child: Text('${index + 1}'),
+                            child: Paragraph(
+                              text: '${index + 1}',
+                            ),
                           );
                         }),
                         onChanged: (newValue) async {

@@ -10,6 +10,7 @@ import 'package:get/route_manager.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   var isCacheExist = await APICacheManager().isAPICacheKeyExist("login_token");
   if (isCacheExist) {
     if (await TokenVerify().verify() == true) {
@@ -33,9 +34,9 @@ class FruBayAppAuth extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-              scaffoldBackgroundColor: greyBackground,
+              scaffoldBackgroundColor: backgroundColor,
               iconTheme: IconThemeData(size: 20.sp)),
-          home: StartPage(),
+          home: const StartPage(),
         );
       },
     );
@@ -52,7 +53,7 @@ class FruBayAppHome extends StatelessWidget {
       builder: (context, child) {
         return GetMaterialApp(
           theme: ThemeData(
-              scaffoldBackgroundColor: greyBackground,
+              scaffoldBackgroundColor: backgroundColor,
               iconTheme: IconThemeData(size: 20.sp)),
           debugShowCheckedModeBanner: false,
           home: const MainMenu(),

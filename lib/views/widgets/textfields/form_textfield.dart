@@ -25,17 +25,18 @@ class FormTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Flexible(
       child: TextField(
+        style: TextStyle(
+            fontFamily: primaryFont, fontSize: 12.sp, color: blackColor),
         controller: controller,
         cursorColor: blackColor,
         onChanged: onChange,
         obscureText: isSecret.isNull ? false : isSecret!,
         decoration: InputDecoration(
           labelText: text,
+          hintStyle: TextStyle(
+              fontFamily: primaryFont, fontSize: 12.sp, color: blackColor),
           labelStyle: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: blackColor,
-            fontSize: 12.sp,
-          ),
+              fontFamily: primaryFont, fontSize: 12.sp, color: blackColor),
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: greyColor, width: 1.h),
           ),

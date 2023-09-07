@@ -24,6 +24,7 @@ class AddressPage extends StatelessWidget {
       ),
       body: ListView.builder(
           itemCount: 2,
+          physics: const BouncingScrollPhysics(),
           itemBuilder: (context, index) {
             return Padding(
               padding: EdgeInsets.all(4.0.sp),
@@ -68,7 +69,7 @@ class AddressPage extends StatelessWidget {
                                       horizontal: 50.w, vertical: 5.h),
                                   child: Paragraph(
                                     text: "Edit",
-                                    color: lightBlue,
+                                    color: blackColor,
                                   ),
                                 ),
                               ),

@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:ecommerceapp/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -22,6 +23,7 @@ class Paragraph extends StatelessWidget {
     return Text(
       text!.isNotEmpty ? text! : "N/A",
       style: TextStyle(
+          fontFamily: primaryFont,
           fontSize: 12.sp,
           fontWeight: weight,
           color: color,

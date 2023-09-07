@@ -35,6 +35,7 @@ class SignUpPage extends StatelessWidget {
         appBar: AppBar(backgroundColor: whiteColor, elevation: 0, actions: [
           GestureDetector(
             onTap: () {
+              Get.delete<SignUpController>;
               Navigator.pop(context);
               ClearTextFields().clearAll();
             },

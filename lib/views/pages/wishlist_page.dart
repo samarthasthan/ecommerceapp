@@ -4,10 +4,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerceapp/constants.dart';
 import 'package:ecommerceapp/controllers/wishlist_controller.dart';
 import 'package:ecommerceapp/models/wishlist_page_model.dart';
+import 'package:ecommerceapp/views/pages/sku_page.dart';
 import 'package:ecommerceapp/views/widgets/texts/paragraph.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class WishListPage extends StatefulWidget {
@@ -68,98 +70,108 @@ class WishListGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.builder(
       itemCount: wishList.length,
+      physics: const BouncingScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 4.0,
           mainAxisSpacing: 4.0,
           childAspectRatio: 9 / 16),
       itemBuilder: (BuildContext context, int index) {
-        return Container(
-          color: whiteColor,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(
-                children: [
-                  CachedNetworkImage(
-                      height: 200.h,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                      imageUrl: wishList[index].productImage!),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(
-                      PhosphorIcons.regular.x,
-                      size: padding,
-                    ),
-                  )
-                ],
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+        return GestureDetector(
+          onTap: () {
+            Get.to(() => SKUPage(
+                  productId: wishList[index].productId!,
+                  skuID: wishList[index].skuId!,
+                  title: wishList[index].productName!,
+                ));
+          },
+          child: Container(
+            color: whiteColor,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Stack(
                   children: [
-                    SizedBox(
-                      height: textPadding,
-                    ),
-                    Paragraph(
-                      text: 'FruBay',
-                      weight: FontWeight.bold,
-                    ),
-                    SizedBox(
-                      height: textPadding,
-                    ),
-                    Paragraph(
-                      text: wishList[index].productName,
-                    ),
-                    SizedBox(
-                      height: textPadding,
-                    ),
-                    Row(
-                      children: [
-                        Paragraph(
-                          text: "₹${wishList[index].regularPrice}",
-                          weight: FontWeight.bold,
-                        ),
-                        SizedBox(
-                          width: textPadding,
-                        ),
-                        Paragraph(
-                          text: "₹${wishList[index].salePrice}",
-                          weight: FontWeight.w200,
-                        ),
-                        SizedBox(
-                          width: textPadding,
-                        ),
-                        Paragraph(
-                          text:
-                              "${(((wishList[index].regularPrice!.toInt() - wishList[index].salePrice!.toInt()) / wishList[index].salePrice!.toInt()) * 100).toInt()}%",
-                          weight: FontWeight.normal,
-                          color: lightBlue,
-                        ),
-                      ],
-                    ),
+                    CachedNetworkImage(
+                        height: 200.h,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                        imageUrl: wishList[index].productImage!),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        PhosphorIcons.regular.x,
+                        size: padding,
+                      ),
+                    )
                   ],
                 ),
-              ),
-              Padding(
-                padding:
-                    EdgeInsets.only(left: 8.w, right: 8.w, top: textPadding),
-                child: Container(
-                  height: 20.h,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      border: Border.all(color: greyColor),
-                      borderRadius: BorderRadius.circular(curve)),
-                  child: Center(
-                    child: Paragraph(
-                      text: 'Move to cart',
-                    ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: textPadding,
+                      ),
+                      Paragraph(
+                        text: 'FruBay',
+                        weight: FontWeight.bold,
+                      ),
+                      SizedBox(
+                        height: textPadding,
+                      ),
+                      Paragraph(
+                        text: wishList[index].productName,
+                      ),
+                      SizedBox(
+                        height: textPadding,
+                      ),
+                      Row(
+                        children: [
+                          Paragraph(
+                            text: "₹${wishList[index].regularPrice}",
+                            weight: FontWeight.bold,
+                          ),
+                          SizedBox(
+                            width: textPadding,
+                          ),
+                          Paragraph(
+                            text: "₹${wishList[index].salePrice}",
+                            weight: FontWeight.w200,
+                          ),
+                          SizedBox(
+                            width: textPadding,
+                          ),
+                          Paragraph(
+                            text:
+                                "${(((wishList[index].regularPrice!.toInt() - wishList[index].salePrice!.toInt()) / wishList[index].salePrice!.toInt()) * 100).toInt()}%",
+                            weight: FontWeight.normal,
+                            color: lightBlue,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-              )
-            ],
+                Padding(
+                  padding:
+                      EdgeInsets.only(left: 8.w, right: 8.w, top: textPadding),
+                  child: Container(
+                    height: 20.h,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: greyColor),
+                        borderRadius: BorderRadius.circular(curve)),
+                    child: Center(
+                      child: Paragraph(
+                        text: 'Move to cart',
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         );
       },

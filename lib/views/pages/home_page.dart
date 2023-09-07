@@ -2,14 +2,16 @@
 
 import 'package:ecommerceapp/constants.dart';
 import 'package:ecommerceapp/controllers/dynamic_page_contoller.dart';
+import 'package:ecommerceapp/controllers/login_controller.dart';
 // ignore: unused_import
 import 'package:ecommerceapp/controllers/main_menu_controller.dart';
 import 'package:ecommerceapp/controllers/nagivation_animations/up_down_navigation.dart';
+import 'package:ecommerceapp/controllers/sign_up_controller.dart';
+import 'package:ecommerceapp/controllers/token_verify.dart';
 
 import 'package:ecommerceapp/views/pages/cart_page.dart';
 import 'package:ecommerceapp/views/widgets/dynamic_page/dynamic_page_widgets.dart';
-import 'package:ecommerceapp/views/widgets/texts/big_heading.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:ecommerceapp/views/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -28,15 +30,21 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
+    Get.delete<TokenVerify>();
+    Get.delete<SignUpController>();
+    Get.delete<LoginController>();
+
     super.build(context);
     return Scaffold(
         appBar: AppBar(
           backgroundColor: whiteColor,
           centerTitle: false,
-          title: BigHeading(
-            text: "FruBay",
-            color: blackColor,
-            weight: FontWeight.w900,
+          title: const Text(
+            'FruBay',
+            style: TextStyle(
+                color: blackColor,
+                fontFamily: 'HelveticaNeue',
+                fontWeight: FontWeight.bold),
           ),
           actions: [
             PhosphorIcon(
@@ -67,7 +75,7 @@ class _HomePageState extends State<HomePage>
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 // Display a loading indicator while waiting for data
-                return const Center(child: CupertinoActivityIndicator());
+                return const Loading();
               } else if (snapshot.hasError) {
                 // Display an error message if an error occurred
                 return Text('Error: ${snapshot.error}');
