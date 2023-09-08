@@ -91,7 +91,7 @@ flutter:
 
     - family: Gilroy-Regular
       fonts:  
-        - asset: assets/fonts/HelveticaNowText-Regular.ttf
+        - asset: assets/fonts/Gilroy-Regular.ttf
 
     - family: Gilroy-Bold
       fonts:

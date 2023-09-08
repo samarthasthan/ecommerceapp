@@ -13,6 +13,8 @@ class FormTextField extends StatelessWidget {
     this.isSecret,
     this.onChange,
     this.isValid,
+    this.capitalization,
+    this.keyBoardType,
   });
 
   String? text = "N/A";
@@ -20,11 +22,15 @@ class FormTextField extends StatelessWidget {
   bool? isSecret = false;
   ValueChanged<String>? onChange;
   bool? isValid;
-
+  TextCapitalization? capitalization;
+  TextInputType? keyBoardType;
   @override
   Widget build(BuildContext context) {
     return Flexible(
       child: TextField(
+        keyboardType: keyBoardType.isNull ? TextInputType.text : keyBoardType,
+        textCapitalization:
+            capitalization.isNull ? TextCapitalization.words : capitalization!,
         style: TextStyle(
             fontFamily: primaryFont, fontSize: 12.sp, color: blackColor),
         controller: controller,

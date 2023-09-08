@@ -90,7 +90,7 @@ class LoginPage extends StatelessWidget {
                         ),
                         Paragraph(
                           text: "Create Now",
-                          color: lightBlue,
+                          color: redColor,
                           decoration: TextDecoration.underline,
                         ),
                       ],
@@ -100,6 +100,8 @@ class LoginPage extends StatelessWidget {
                     ),
                     FormTextField(
                       text: "Email",
+                      keyBoardType: TextInputType.emailAddress,
+                      capitalization: TextCapitalization.none,
                       controller: emailController,
                       onChange: (value) => isAnyTextFieldEmpty.value =
                           _checkIfAnyTextFieldIsEmpty(),
@@ -111,6 +113,7 @@ class LoginPage extends StatelessWidget {
                       text: "Password",
                       controller: passwordController,
                       isSecret: true,
+                      capitalization: TextCapitalization.none,
                       onChange: (value) => isAnyTextFieldEmpty.value =
                           _checkIfAnyTextFieldIsEmpty(),
                     ),
@@ -127,84 +130,61 @@ class LoginPage extends StatelessWidget {
                           width: padding / 4,
                         ),
                         Paragraph(
-                          color: lightBlue,
+                          color: redColor,
                           text: "Forgot it",
                           decoration: TextDecoration.underline,
                         ),
                       ],
                     ),
-                    TweenAnimationBuilder<double>(
-                      tween: Tween<double>(
-                        begin: isKeyboardVisible ? 24.70 : 9.1,
-                        end: isKeyboardVisible ? 9.1 : 24.70,
-                      ),
-                      duration: const Duration(milliseconds: 200),
-                      curve: Curves
-                          .easeInOutQuad, // Use the easing curve of your choice
-                      builder:
-                          (BuildContext context, double value, Widget? child) {
-                        return SizedBox(
-                          height: padding * value,
-                        );
-                      },
+                    SizedBox(
+                      height: padding,
                     ),
                     Obx(
-                      () => Transform.translate(
-                        offset: Offset(
-                            0,
-                            isKeyboardVisible
-                                ? 0
-                                : 40), // Adjust the value as needed
-                        child: GestureDetector(
-                          onTap: () async {
-                            isLoading.value = true;
-                            FocusManager.instance.primaryFocus?.unfocus();
-                            bool logInSuccess = await logInController.login(
-                              email: emailController.text,
-                              password: passwordController.text,
-                            );
-                            isLoading.value = false;
+                      () => GestureDetector(
+                        onTap: () async {
+                          isLoading.value = true;
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          bool logInSuccess = await logInController.login(
+                            email: emailController.text,
+                            password: passwordController.text,
+                          );
+                          isLoading.value = false;
 
-                            if (logInSuccess) {
-                              // ignore: use_build_context_synchronously
-                              Navigator.pushAndRemoveUntil(context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) {
-                                return const MainMenu();
-                              }), (r) {
-                                return false;
-                              });
-                            }
-                          },
-                          child: isLoading.value == false
-                              ? BasicTextButton(
-                                  text: "Log In",
-                                  backgroundColor: isAnyTextFieldEmpty.value
-                                      ? greyColor
-                                      : blackColor,
-                                  textColor: whiteColor,
-                                )
-                              : Container(
-                                  width: double.infinity,
-                                  height: padding * 3,
-                                  decoration: BoxDecoration(
-                                      color: blackColor,
-                                      borderRadius:
-                                          BorderRadius.circular(padding / 2)),
-                                  child: Center(
-                                      child: SizedBox(
-                                    height: padding * 1.5,
-                                    width: padding * 1.5,
-                                    child: const CircularProgressIndicator(
-                                      color: whiteColor,
-                                    ),
-                                  ))),
-                        ),
+                          if (logInSuccess) {
+                            // ignore: use_build_context_synchronously
+                            Navigator.pushAndRemoveUntil(context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) {
+                              return const MainMenu();
+                            }), (r) {
+                              return false;
+                            });
+                          }
+                        },
+                        child: isLoading.value == false
+                            ? BasicTextButton(
+                                text: "Log In",
+                                backgroundColor: isAnyTextFieldEmpty.value
+                                    ? greyColor
+                                    : blackColor,
+                                textColor: whiteColor,
+                              )
+                            : Container(
+                                width: double.infinity,
+                                height: padding * 2.5,
+                                decoration: BoxDecoration(
+                                    color: blackColor,
+                                    borderRadius: BorderRadius.circular(curve)),
+                                child: Center(
+                                    child: SizedBox(
+                                  height: padding * 1.5,
+                                  width: padding * 1.5,
+                                  child: const CircularProgressIndicator(
+                                    color: whiteColor,
+                                  ),
+                                ))),
                       ),
-                    ),
-                    Padding(
-                        padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).viewInsets.bottom))
+                    )
                   ],
                 ),
               ),

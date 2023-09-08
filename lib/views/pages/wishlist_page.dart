@@ -75,7 +75,7 @@ class WishListGrid extends StatelessWidget {
           crossAxisCount: 2,
           crossAxisSpacing: 4.0,
           mainAxisSpacing: 4.0,
-          childAspectRatio: 9 / 16),
+          childAspectRatio: 8.7 / 16),
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
           onTap: () {
@@ -85,93 +85,92 @@ class WishListGrid extends StatelessWidget {
                   title: wishList[index].productName!,
                 ));
           },
-          child: Container(
-            color: whiteColor,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Stack(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Stack(
+                children: [
+                  CachedNetworkImage(
+                      height: 200.h,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                      imageUrl: wishList[index].productImage!),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      PhosphorIcons.regular.x,
+                      size: padding,
+                    ),
+                  )
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: textPadding),
+                child: Column(
                   children: [
-                    CachedNetworkImage(
-                        height: 200.h,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                        imageUrl: wishList[index].productImage!),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(
-                        PhosphorIcons.regular.x,
-                        size: padding,
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: textPadding,
+                        ),
+                        Paragraph(
+                          text: 'FruBay',
+                          weight: FontWeight.bold,
+                        ),
+                        SizedBox(
+                          height: textPadding,
+                        ),
+                        Paragraph(
+                          text: wishList[index].productName,
+                        ),
+                        SizedBox(
+                          height: textPadding,
+                        ),
+                        Row(
+                          children: [
+                            Paragraph(
+                              text: "₹${wishList[index].regularPrice}",
+                              weight: FontWeight.bold,
+                            ),
+                            SizedBox(
+                              width: textPadding,
+                            ),
+                            Paragraph(
+                              text: "₹${wishList[index].salePrice}",
+                              weight: FontWeight.w200,
+                            ),
+                            SizedBox(
+                              width: textPadding,
+                            ),
+                            Paragraph(
+                              text:
+                                  "${(((wishList[index].regularPrice!.toInt() - wishList[index].salePrice!.toInt()) / wishList[index].salePrice!.toInt()) * 100).toInt()}%",
+                              weight: FontWeight.normal,
+                              color: redColor,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        divider,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Paragraph(
+                              text: 'Move to cart',
+                            ),
+                          ],
+                        ),
+                        divider,
+                      ],
                     )
                   ],
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: textPadding,
-                      ),
-                      Paragraph(
-                        text: 'FruBay',
-                        weight: FontWeight.bold,
-                      ),
-                      SizedBox(
-                        height: textPadding,
-                      ),
-                      Paragraph(
-                        text: wishList[index].productName,
-                      ),
-                      SizedBox(
-                        height: textPadding,
-                      ),
-                      Row(
-                        children: [
-                          Paragraph(
-                            text: "₹${wishList[index].regularPrice}",
-                            weight: FontWeight.bold,
-                          ),
-                          SizedBox(
-                            width: textPadding,
-                          ),
-                          Paragraph(
-                            text: "₹${wishList[index].salePrice}",
-                            weight: FontWeight.w200,
-                          ),
-                          SizedBox(
-                            width: textPadding,
-                          ),
-                          Paragraph(
-                            text:
-                                "${(((wishList[index].regularPrice!.toInt() - wishList[index].salePrice!.toInt()) / wishList[index].salePrice!.toInt()) * 100).toInt()}%",
-                            weight: FontWeight.normal,
-                            color: lightBlue,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding:
-                      EdgeInsets.only(left: 8.w, right: 8.w, top: textPadding),
-                  child: Container(
-                    height: 20.h,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: greyColor),
-                        borderRadius: BorderRadius.circular(curve)),
-                    child: Center(
-                      child: Paragraph(
-                        text: 'Move to cart',
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
+              )
+            ],
           ),
         );
       },

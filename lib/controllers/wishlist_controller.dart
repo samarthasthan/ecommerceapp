@@ -20,7 +20,6 @@ class WishListController extends GetxController {
     if (res.statusCode != 200) {
       throw Exception('http.get error: statusCode= ${res.statusCode}');
     }
-
     // Parse the list of items from the JSON array
     List<dynamic> jsonList = json.decode(res.body);
     List<WishListModel> wishListItems =

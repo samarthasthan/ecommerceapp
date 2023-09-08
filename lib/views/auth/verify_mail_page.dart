@@ -106,7 +106,7 @@ class VerifyMailPage extends StatelessWidget {
                         ),
                         Paragraph(
                           text: "Change",
-                          color: lightBlue,
+                          color: redColor,
                           decoration: TextDecoration.underline,
                         ),
                       ],
@@ -116,6 +116,8 @@ class VerifyMailPage extends StatelessWidget {
                     ),
                     FormTextField(
                       text: "Verification Code",
+                      capitalization: TextCapitalization.none,
+                      keyBoardType: TextInputType.number,
                       controller: verificationCodeController,
                       onChange: (_) => isAnyTextFieldEmpty.value =
                           _checkIfAnyTextFieldIsEmpty(),
@@ -129,81 +131,58 @@ class VerifyMailPage extends StatelessWidget {
                       text:
                           "Did'nt get the email? Check your spam/junk or resend it.",
                     ),
-                    TweenAnimationBuilder<double>(
-                      tween: Tween<double>(
-                        begin: isKeyboardVisible ? 29.0 : 13.3,
-                        end: isKeyboardVisible ? 13.3 : 29.0,
-                      ),
-                      duration: const Duration(milliseconds: 200),
-                      curve: Curves
-                          .easeInOutQuad, // Use the easing curve of your choice
-                      builder:
-                          (BuildContext context, double value, Widget? child) {
-                        return SizedBox(
-                          height: padding * value,
-                        );
-                      },
+                    SizedBox(
+                      height: padding,
                     ),
                     Obx(
-                      () => Transform.translate(
-                        offset: Offset(
-                            0,
-                            isKeyboardVisible
-                                ? 0
-                                : 40), // Adjust the value as needed
-                        child: GestureDetector(
-                          onTap: () async {
-                            isVerifyLoading.value = true;
-                            bool verifySuccess =
-                                await verifyOTPController.verify(
-                              email: emailController.text,
-                              otp: verificationCodeController.text,
-                            );
-                            isVerifyLoading.value = false;
+                      () => GestureDetector(
+                        onTap: () async {
+                          isVerifyLoading.value = true;
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          bool verifySuccess = await verifyOTPController.verify(
+                            email: emailController.text,
+                            otp: verificationCodeController.text,
+                          );
+                          isVerifyLoading.value = false;
 
-                            if (verifySuccess) {
-                              FocusManager.instance.primaryFocus?.unfocus();
-                              Navigator.pushAndRemoveUntil<dynamic>(
-                                context,
-                                MaterialPageRoute<dynamic>(
-                                  builder: (BuildContext context) =>
-                                      StartPage(),
-                                ),
-                                (route) =>
-                                    false, //if you want to disable back feature set to false
-                              );
-                              ClearTextFields().clearAll();
-                            }
-                          },
-                          child: isVerifyLoading.value == false
-                              ? BasicTextButton(
-                                  text: "Verify",
-                                  backgroundColor: isAnyTextFieldEmpty.value
-                                      ? greyColor
-                                      : blackColor,
-                                  textColor: whiteColor,
-                                )
-                              : Container(
-                                  width: double.infinity,
-                                  height: padding * 3,
-                                  decoration: BoxDecoration(
-                                      color: blackColor,
-                                      borderRadius:
-                                          BorderRadius.circular(padding / 2)),
-                                  child: Center(
-                                      child: SizedBox(
-                                    height: padding * 1.5,
-                                    width: padding * 1.5,
-                                    child: const CircularProgressIndicator(
-                                      color: whiteColor,
-                                    ),
-                                  ))),
-                        ),
+                          if (verifySuccess) {
+                            FocusManager.instance.primaryFocus?.unfocus();
+                            Navigator.pushAndRemoveUntil<dynamic>(
+                              context,
+                              MaterialPageRoute<dynamic>(
+                                builder: (BuildContext context) => StartPage(),
+                              ),
+                              (route) =>
+                                  false, //if you want to disable back feature set to false
+                            );
+                            ClearTextFields().clearAll();
+                          }
+                        },
+                        child: isVerifyLoading.value == false
+                            ? BasicTextButton(
+                                text: "Verify",
+                                backgroundColor: isAnyTextFieldEmpty.value
+                                    ? greyColor
+                                    : blackColor,
+                                textColor: whiteColor,
+                              )
+                            : Container(
+                                width: double.infinity,
+                                height: padding * 2.5,
+                                decoration: BoxDecoration(
+                                    color: blackColor,
+                                    borderRadius:
+                                        BorderRadius.circular(padding / 2)),
+                                child: Center(
+                                    child: SizedBox(
+                                  height: padding * 1.5,
+                                  width: padding * 1.5,
+                                  child: const CircularProgressIndicator(
+                                    color: whiteColor,
+                                  ),
+                                ))),
                       ),
                     ),
-                    Padding(
-                        padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).viewInsets.bottom))
                   ],
                 ),
               ),

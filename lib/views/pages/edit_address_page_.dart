@@ -91,7 +91,7 @@ class EditAddressPage extends StatelessWidget {
                         ),
                         Paragraph(
                           text: "Create now",
-                          color: lightBlue,
+                          color: redColor,
                           decoration: TextDecoration.underline,
                         ),
                       ],

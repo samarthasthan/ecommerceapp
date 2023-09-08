@@ -10,6 +10,7 @@ import 'package:ecommerceapp/controllers/sign_up_controller.dart';
 import 'package:ecommerceapp/controllers/token_verify.dart';
 
 import 'package:ecommerceapp/views/pages/cart_page.dart';
+import 'package:ecommerceapp/views/pages/products_page.dart';
 import 'package:ecommerceapp/views/widgets/dynamic_page/dynamic_page_widgets.dart';
 import 'package:ecommerceapp/views/widgets/loading.dart';
 import 'package:flutter/material.dart';
@@ -47,9 +48,14 @@ class _HomePageState extends State<HomePage>
                 fontWeight: FontWeight.bold),
           ),
           actions: [
-            PhosphorIcon(
-              PhosphorIcons.light.magnifyingGlass,
-              color: blackColor,
+            GestureDetector(
+              onTap: () {
+                Get.to(() => ProductsPage());
+              },
+              child: PhosphorIcon(
+                PhosphorIcons.light.magnifyingGlass,
+                color: blackColor,
+              ),
             ),
             SizedBox(
               width: padding,

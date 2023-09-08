@@ -91,7 +91,7 @@ class SignUpPage extends StatelessWidget {
                         ),
                         Paragraph(
                           text: "Sign in",
-                          color: lightBlue,
+                          color: redColor,
                           decoration: TextDecoration.underline,
                         ),
                       ],
@@ -104,6 +104,7 @@ class SignUpPage extends StatelessWidget {
                         FormTextField(
                           text: "First Name",
                           controller: firstNameController,
+                          capitalization: TextCapitalization.words,
                           onChange: (value) => isAnyTextFieldEmpty.value =
                               _checkIfAnyTextFieldIsEmpty(),
                         ),
@@ -113,6 +114,7 @@ class SignUpPage extends StatelessWidget {
                         FormTextField(
                           text: "Last Name",
                           controller: lastNameController,
+                          capitalization: TextCapitalization.words,
                           onChange: (value) => isAnyTextFieldEmpty.value =
                               _checkIfAnyTextFieldIsEmpty(),
                         )
@@ -124,6 +126,8 @@ class SignUpPage extends StatelessWidget {
                     FormTextField(
                       text: "Email",
                       controller: emailController,
+                      capitalization: TextCapitalization.none,
+                      keyBoardType: TextInputType.emailAddress,
                       onChange: (value) => isAnyTextFieldEmpty.value =
                           _checkIfAnyTextFieldIsEmpty(),
                     ),
@@ -133,6 +137,8 @@ class SignUpPage extends StatelessWidget {
                     FormTextField(
                       text: "Phone Number",
                       controller: phoneNumberController,
+                      capitalization: TextCapitalization.none,
+                      keyBoardType: TextInputType.phone,
                       onChange: (value) => isAnyTextFieldEmpty.value =
                           _checkIfAnyTextFieldIsEmpty(),
                     ),
@@ -146,76 +152,53 @@ class SignUpPage extends StatelessWidget {
                       onChange: (value) => isAnyTextFieldEmpty.value =
                           _checkIfAnyTextFieldIsEmpty(),
                     ),
-                    TweenAnimationBuilder<double>(
-                      tween: Tween<double>(
-                        begin: isKeyboardVisible ? 17.90 : 2.5,
-                        end: isKeyboardVisible ? 2.5 : 17.90,
-                      ),
-                      duration: const Duration(milliseconds: 200),
-                      curve: Curves
-                          .easeInOutQuad, // Use the easing curve of your choice
-                      builder:
-                          (BuildContext context, double value, Widget? child) {
-                        return SizedBox(
-                          height: padding * value,
-                        );
-                      },
+                    SizedBox(
+                      height: padding,
                     ),
                     Obx(
-                      () => Transform.translate(
-                        offset: Offset(
-                            0,
-                            isKeyboardVisible
-                                ? 0
-                                : 40), // Adjust the value as needed
-                        child: GestureDetector(
-                          onTap: () async {
-                            isLoading.value = true;
-                            FocusManager.instance.primaryFocus?.unfocus();
-                            bool signUpSuccess = await signUpController.signUp(
-                              firstName: firstNameController.text,
-                              lastName: lastNameController.text,
-                              email: emailController.text,
-                              phoneNo: int.parse(phoneNumberController.text),
-                              password: passwordController.text,
-                            );
-                            isLoading.value = false;
+                      () => GestureDetector(
+                        onTap: () async {
+                          isLoading.value = true;
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          bool signUpSuccess = await signUpController.signUp(
+                            firstName: firstNameController.text,
+                            lastName: lastNameController.text,
+                            email: emailController.text,
+                            phoneNo: int.parse(phoneNumberController.text),
+                            password: passwordController.text,
+                          );
+                          isLoading.value = false;
 
-                            if (signUpSuccess) {
-                              // ignore: use_build_context_synchronously
-                              UpDownNavigation().navigateToPage(context,
-                                  page: VerifyMailPage());
-                            }
-                          },
-                          child: isLoading.value == false
-                              ? BasicTextButton(
-                                  text: "Confirm and continue",
-                                  backgroundColor: isAnyTextFieldEmpty.value
-                                      ? greyColor
-                                      : blackColor,
-                                  textColor: whiteColor,
-                                )
-                              : Container(
-                                  width: double.infinity,
-                                  height: padding * 3,
-                                  decoration: BoxDecoration(
-                                      color: blackColor,
-                                      borderRadius:
-                                          BorderRadius.circular(padding / 2)),
-                                  child: Center(
-                                      child: SizedBox(
-                                    height: padding * 1.5,
-                                    width: padding * 1.5,
-                                    child: const CircularProgressIndicator(
-                                      color: whiteColor,
-                                    ),
-                                  ))),
-                        ),
+                          if (signUpSuccess) {
+                            // ignore: use_build_context_synchronously
+                            UpDownNavigation().navigateToPage(context,
+                                page: VerifyMailPage());
+                          }
+                        },
+                        child: isLoading.value == false
+                            ? BasicTextButton(
+                                text: "Confirm and continue",
+                                backgroundColor: isAnyTextFieldEmpty.value
+                                    ? greyColor
+                                    : blackColor,
+                                textColor: whiteColor,
+                              )
+                            : Container(
+                                width: double.infinity,
+                                height: padding * 2.5,
+                                decoration: BoxDecoration(
+                                    color: blackColor,
+                                    borderRadius: BorderRadius.circular(curve)),
+                                child: Center(
+                                    child: SizedBox(
+                                  height: padding * 1.5,
+                                  width: padding * 1.5,
+                                  child: const CircularProgressIndicator(
+                                    color: whiteColor,
+                                  ),
+                                ))),
                       ),
                     ),
-                    Padding(
-                        padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).viewInsets.bottom))
                   ],
                 ),
               ),
