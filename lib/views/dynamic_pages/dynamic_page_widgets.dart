@@ -2,8 +2,8 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:ecommerceapp/models/homepage/dynamic_page_model.dart';
-import 'package:ecommerceapp/models/homepage/dynamic_page_widgets.dart';
+import 'package:ecommerceapp/models/dynamic_page_models/dynamic_page_model.dart';
+import 'package:ecommerceapp/models/dynamic_page_models/dynamic_page_widgets.dart';
 import 'package:ecommerceapp/views/widgets/texts/paragraph.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

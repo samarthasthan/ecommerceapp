@@ -1,5 +1,5 @@
 import 'package:ecommerceapp/constants.dart';
-import 'package:ecommerceapp/views/pages/edit_address_page_.dart';
+import 'package:ecommerceapp/views/address_pages/edit_address_page_.dart';
 import 'package:ecommerceapp/views/widgets/texts/paragraph.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

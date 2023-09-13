@@ -1,3 +1,5 @@
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+
 class SKUModel {
   String? skuId;
   List<Products>? products;
@@ -30,6 +32,8 @@ class Products {
   String? productDescription;
   String? color;
   String? colorHex;
+  Rx<bool>? inCart;
+  Rx<bool>? inWishlist;
   List<ProductDetails>? productDetails;
   List<ProductImages>? productImages;
   List<Variations>? variations;
@@ -40,6 +44,8 @@ class Products {
       this.productDescription,
       this.color,
       this.colorHex,
+      this.inCart,
+      this.inWishlist,
       this.productDetails,
       this.productImages,
       this.variations});
@@ -50,6 +56,8 @@ class Products {
     productDescription = json['product_description'];
     color = json['color'];
     colorHex = json['color_hex'];
+    inCart = RxBool(json['in_cart'] ?? false); // Initialize as RxBool
+    inWishlist = RxBool(json['in_wishlist'] ?? false); // Initialize as RxBool
     if (json['product_details'] != null) {
       productDetails = <ProductDetails>[];
       json['product_details'].forEach((v) {
@@ -77,6 +85,8 @@ class Products {
     data['product_description'] = this.productDescription;
     data['color'] = this.color;
     data['color_hex'] = this.colorHex;
+    data['in_cart'] = this.inCart;
+    data['in_wishlist'] = this.inWishlist;
     if (this.productDetails != null) {
       data['product_details'] =
           this.productDetails!.map((v) => v.toJson()).toList();
@@ -171,12 +181,14 @@ class ProductImages {
 }
 
 class Variations {
+  String? variationId;
   String? variationName;
   List<VariationItems>? variationItems;
 
-  Variations({this.variationName, this.variationItems});
+  Variations({this.variationId, this.variationName, this.variationItems});
 
   Variations.fromJson(Map<String, dynamic> json) {
+    variationId = json['variation_id'];
     variationName = json['variation_name'];
     if (json['variation_items'] != null) {
       variationItems = <VariationItems>[];
@@ -188,6 +200,7 @@ class Variations {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['variation_id'] = this.variationId;
     data['variation_name'] = this.variationName;
     if (this.variationItems != null) {
       data['variation_items'] =
@@ -198,15 +211,21 @@ class Variations {
 }
 
 class VariationItems {
+  String? variationItemId;
   String? variationItemName;
   int? stock;
   double? regularPrice;
   double? salePrice;
 
   VariationItems(
-      {this.variationItemName, this.stock, this.regularPrice, this.salePrice});
+      {this.variationItemId,
+      this.variationItemName,
+      this.stock,
+      this.regularPrice,
+      this.salePrice});
 
   VariationItems.fromJson(Map<String, dynamic> json) {
+    variationItemId = json['variation_item_id'];
     variationItemName = json['variation_item_name'];
     stock = json['stock'];
     regularPrice = json['regular_price'];
@@ -215,6 +234,7 @@ class VariationItems {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['variation_item_id'] = this.variationItemId;
     data['variation_item_name'] = this.variationItemName;
     data['stock'] = this.stock;
     data['regular_price'] = this.regularPrice;

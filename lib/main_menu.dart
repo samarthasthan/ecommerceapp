@@ -1,10 +1,10 @@
 import 'package:ecommerceapp/constants.dart';
-import 'package:ecommerceapp/views/pages/account_page.dart';
-import 'package:ecommerceapp/views/pages/category_page.dart';
-import 'package:ecommerceapp/views/pages/home_page.dart';
-import 'package:ecommerceapp/views/pages/wishlist_page.dart';
+import 'package:ecommerceapp/views/main_menu_pages/account_page.dart';
+import 'package:ecommerceapp/views/main_menu_pages/category_page.dart';
+import 'package:ecommerceapp/views/main_menu_pages/home_page.dart';
+import 'package:ecommerceapp/views/main_menu_pages/wishlist_page.dart';
+
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class MainMenu extends StatefulWidget {
@@ -57,12 +57,6 @@ class _MainMenuState extends State<MainMenu> {
           selectedItemColor: redColor,
           unselectedItemColor: blackColor,
           currentIndex: currentIndex,
-          unselectedLabelStyle: GoogleFonts.montserrat(
-            textStyle: const TextStyle(),
-          ),
-          selectedLabelStyle: GoogleFonts.montserrat(
-            textStyle: const TextStyle(),
-          ),
           onTap: (index) {
             controller.jumpToPage(index);
 

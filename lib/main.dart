@@ -1,8 +1,8 @@
 import 'package:api_cache_manager/utils/cache_manager.dart';
 import 'package:ecommerceapp/constants.dart';
-import 'package:ecommerceapp/controllers/token_verify.dart';
+import 'package:ecommerceapp/controllers/user_controllers/token_verify.dart';
 import 'package:ecommerceapp/main_menu.dart';
-import 'package:ecommerceapp/views/boarding/onboard_page.dart';
+import 'package:ecommerceapp/views/boarding_pages/onboard_page.dart';
 // ignore: unused_import
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,8 +10,7 @@ import 'package:get/route_manager.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  var isCacheExist = await APICacheManager().isAPICacheKeyExist("login_token");
+  var isCacheExist = await APICacheManager().isAPICacheKeyExist("user_details");
   if (isCacheExist) {
     if (await TokenVerify().verify() == true) {
       runApp(const FruBayAppHome());
@@ -35,7 +34,7 @@ class FruBayAppAuth extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
               scaffoldBackgroundColor: backgroundColor,
-              iconTheme: IconThemeData(size: 20.sp)),
+              iconTheme: IconThemeData(size: 23.sp)),
           home: const StartPage(),
         );
       },
@@ -54,7 +53,7 @@ class FruBayAppHome extends StatelessWidget {
         return GetMaterialApp(
           theme: ThemeData(
               scaffoldBackgroundColor: backgroundColor,
-              iconTheme: IconThemeData(size: 20.sp)),
+              iconTheme: IconThemeData(size: 23.sp)),
           debugShowCheckedModeBanner: false,
           home: const MainMenu(),
         );

@@ -44,8 +44,8 @@ dependencies:
   carousel_slider: ^4.2.1
   phosphor_flutter: ^2.0.0
   lottie: ^2.6.0
-  google_fonts: ^5.1.0
   flutter_statusbarcolor_ns: ^0.5.0
+  vertical_tabs_flutter: ^1.0.0
 
 dev_dependencies:
   flutter_test:

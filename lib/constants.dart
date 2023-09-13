@@ -1,5 +1,14 @@
+import 'dart:convert';
+
+import 'package:api_cache_manager/utils/cache_manager.dart';
+import 'package:ecommerceapp/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+
+/////// Buttons
+Rx<bool> tempBool = false.obs;
+var bigButtonHeight = padding * 2.5;
 
 const Widget divider = Divider();
 
@@ -35,12 +44,13 @@ final TextEditingController baseUrlController = TextEditingController();
 
 //Urls
 
-String baseUrl = "http://3.6.94.231";
+String baseUrl = "https://4c06-117-212-45-110.ngrok-free.app";
 // String baseUrl = "http://13.127.83.79";
 const String registerUrl = "/register";
 const String verifyOTPUrl = '/verify-otp';
 const String loginUrl = '/login';
 const String verifyTokenUrl = '/check-token';
+const String cartUrl = '/cart';
 
 // Dynamic Pages Titles
 
@@ -50,4 +60,27 @@ const String categoryPageTitle = 'category';
 const String address =
     '9/1, M M Lane, 3 Cross Cottonpet, Chickpet\nBangalore Karnataka -560053\n+91 9557037766';
 
-const String category_id = "0ff0dab9f70bb560c8e40b16fd2a3bec";
+const String categoryId = "9e6524b15aa9fedf7ea04db0eff2ad32";
+
+//////// User details
+Future<UserModel> getUserDetails() async {
+  var userDetailsCache = await APICacheManager().getCacheData("user_details");
+  var jsonData = userDetailsCache.syncData;
+  var userDetailsMap = json.decode(jsonData);
+
+  // Now you can use tokenMap to create a LoginModel instance
+  var userDetails = UserModel.fromJson(userDetailsMap);
+  return userDetails;
+}
+
+getUserToken() async {
+  UserModel data = await getUserDetails();
+  String token = data.accessToken!;
+  return token;
+}
+
+getUserId() async {
+  UserModel data = await getUserDetails();
+  String userId = data.userId!;
+  return userId;
+}

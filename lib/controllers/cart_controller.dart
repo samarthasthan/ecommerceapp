@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:api_cache_manager/utils/cache_manager.dart';
 import 'package:ecommerceapp/constants.dart';
 import 'package:ecommerceapp/models/cart_page_model.dart';
 import 'package:get/get.dart';
+// ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 
 class CartController extends GetxController {
@@ -11,16 +11,15 @@ class CartController extends GetxController {
   late RxDouble totalMRP = 0.0.obs;
   late RxDouble totalDiscount = 0.0.obs;
 
-  Future<RxList<CartModel>> getCartPage() async {
+  Future<RxList<CartModel>> getCartItemS() async {
     try {
-      var token = await APICacheManager().getCacheData("login_token");
       var headers = {
-        'Authorization': 'Bearer ${token.syncData}',
+        'Authorization': 'Bearer ${await getUserToken()}',
         'accept': 'application/json',
         'Content-Type': 'application/json',
       };
 
-      var url = Uri.parse('$baseUrl/cart');
+      var url = Uri.parse(baseUrl + cartUrl);
 
       var res = await http.get(url, headers: headers);
 
@@ -53,9 +52,8 @@ class CartController extends GetxController {
 
   Future<void> deleteCartItem(String productId) async {
     try {
-      var token = await APICacheManager().getCacheData("login_token");
       var headers = {
-        'Authorization': 'Bearer ${token.syncData}',
+        'Authorization': 'Bearer ${await getUserToken()}',
         'accept': 'application/json',
         'Content-Type': 'application/json',
       };
@@ -64,7 +62,7 @@ class CartController extends GetxController {
 
       var bodyJson = jsonEncode(body);
 
-      var url = Uri.parse('$baseUrl/cart');
+      var url = Uri.parse(baseUrl + cartUrl);
 
       var res = await http.delete(url, headers: headers, body: bodyJson);
 
@@ -96,11 +94,10 @@ class CartController extends GetxController {
   }
 
   Future<void> updateCartItem(
-      String productId, int quantity, String variation_item_id) async {
+      String productId, int quantity, String variationItemId) async {
     try {
-      var token = await APICacheManager().getCacheData("login_token");
       var headers = {
-        'Authorization': 'Bearer ${token.syncData}',
+        'Authorization': 'Bearer ${await getUserToken()}',
         'accept': 'application/json',
         'Content-Type': 'application/json',
       };
@@ -108,12 +105,12 @@ class CartController extends GetxController {
       var body = {
         "product_id": productId.toString(),
         "quantity": quantity,
-        "variation_item_id": variation_item_id
+        "variation_item_id": variationItemId
       };
 
       var bodyJson = jsonEncode(body);
 
-      var url = Uri.parse('$baseUrl/cart');
+      var url = Uri.parse(baseUrl + cartUrl);
 
       var res = await http.patch(url, headers: headers, body: bodyJson);
 
@@ -137,5 +134,32 @@ class CartController extends GetxController {
     } catch (e) {
       throw Exception('Error: $e');
     }
+  }
+
+  Future<bool> addCartItem(
+      {required String productId,
+      required userId,
+      required variationItemsId}) async {
+    var headers = {
+      'Authorization': 'Bearer ${await getUserToken()}',
+      'accept': 'application/json',
+      'Content-Type': 'application/json',
+    };
+    var body = {
+      "product_id": productId,
+      "user_id": userId,
+      "variation_item_id": variationItemsId
+    };
+
+    var bodyJson = jsonEncode(body);
+
+    var url = Uri.parse(baseUrl + cartUrl);
+
+    var res = await http.post(url, headers: headers, body: bodyJson);
+
+    if (res.statusCode == 200) {
+      return true;
+    }
+    return false;
   }
 }

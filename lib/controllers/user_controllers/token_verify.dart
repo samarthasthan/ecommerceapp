@@ -1,15 +1,13 @@
 // ignore_for_file: depend_on_referenced_packages
 
-import 'package:api_cache_manager/utils/cache_manager.dart';
 import 'package:ecommerceapp/constants.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class TokenVerify extends GetxController {
   Future<bool> verify() async {
-    var token = await APICacheManager().getCacheData("login_token");
     var headers = {
-      'Authorization': 'Bearer ${token.syncData}',
+      'Authorization': 'Bearer ${await getUserToken()}',
     };
 
     var url = Uri.parse(baseUrl + verifyTokenUrl);

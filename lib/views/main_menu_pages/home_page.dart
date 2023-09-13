@@ -1,17 +1,13 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:ecommerceapp/constants.dart';
 import 'package:ecommerceapp/controllers/dynamic_page_contoller.dart';
-import 'package:ecommerceapp/controllers/login_controller.dart';
-// ignore: unused_import
-import 'package:ecommerceapp/controllers/main_menu_controller.dart';
 import 'package:ecommerceapp/controllers/nagivation_animations/up_down_navigation.dart';
-import 'package:ecommerceapp/controllers/sign_up_controller.dart';
-import 'package:ecommerceapp/controllers/token_verify.dart';
+import 'package:ecommerceapp/controllers/user_controllers/login_controller.dart';
+import 'package:ecommerceapp/controllers/user_controllers/sign_up_controller.dart';
+import 'package:ecommerceapp/controllers/user_controllers/token_verify.dart';
+import 'package:ecommerceapp/views/cart_page.dart';
+import 'package:ecommerceapp/views/dynamic_pages/dynamic_page_widgets.dart';
+import 'package:ecommerceapp/views/product_pages/products_page.dart';
 
-import 'package:ecommerceapp/views/pages/cart_page.dart';
-import 'package:ecommerceapp/views/pages/products_page.dart';
-import 'package:ecommerceapp/views/widgets/dynamic_page/dynamic_page_widgets.dart';
 import 'package:ecommerceapp/views/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -50,7 +46,7 @@ class _HomePageState extends State<HomePage>
           actions: [
             GestureDetector(
               onTap: () {
-                Get.to(() => ProductsPage());
+                Get.to(() => const ProductsPage());
               },
               child: PhosphorIcon(
                 PhosphorIcons.light.magnifyingGlass,

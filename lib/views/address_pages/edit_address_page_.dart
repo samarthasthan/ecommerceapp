@@ -2,9 +2,9 @@
 
 import 'package:ecommerceapp/constants.dart';
 import 'package:ecommerceapp/controllers/nagivation_animations/up_down_navigation.dart';
-import 'package:ecommerceapp/controllers/sign_up_controller.dart';
+import 'package:ecommerceapp/controllers/user_controllers/sign_up_controller.dart';
 import 'package:ecommerceapp/controllers/utils.dart';
-import 'package:ecommerceapp/views/auth/verify_mail_page.dart';
+import 'package:ecommerceapp/views/auth_pages/verify_mail_page.dart';
 import 'package:ecommerceapp/views/widgets/buttons/basic_text_button.dart';
 import 'package:ecommerceapp/views/widgets/textfields/form_textfield.dart';
 import 'package:ecommerceapp/views/widgets/texts/big_heading.dart';
@@ -188,48 +188,34 @@ class EditAddressPage extends StatelessWidget {
                                 ? 0
                                 : 40), // Adjust the value as needed
                         child: GestureDetector(
-                          onTap: () async {
-                            isLoading.value = true;
-                            FocusManager.instance.primaryFocus?.unfocus();
-                            bool signUpSuccess = await signUpController.signUp(
-                              firstName: firstNameController.text,
-                              lastName: lastNameController.text,
-                              email: emailController.text,
-                              phoneNo: int.parse(phoneNumberController.text),
-                              password: passwordController.text,
-                            );
-                            isLoading.value = false;
+                            onTap: () async {
+                              isLoading.value = true;
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              bool signUpSuccess =
+                                  await signUpController.signUp(
+                                firstName: firstNameController.text,
+                                lastName: lastNameController.text,
+                                email: emailController.text,
+                                phoneNo: int.parse(phoneNumberController.text),
+                                password: passwordController.text,
+                              );
+                              isLoading.value = false;
 
-                            if (signUpSuccess) {
-                              // ignore: use_build_context_synchronously
-                              UpDownNavigation().navigateToPage(context,
-                                  page: VerifyMailPage());
-                            }
-                          },
-                          child: isLoading.value == false
-                              ? BasicTextButton(
-                                  text: "Confirm and continue",
-                                  backgroundColor: isAnyTextFieldEmpty.value
-                                      ? greyColor
-                                      : blackColor,
-                                  textColor: whiteColor,
-                                )
-                              : Container(
-                                  width: double.infinity,
-                                  height: padding * 3,
-                                  decoration: BoxDecoration(
-                                      color: blackColor,
-                                      borderRadius:
-                                          BorderRadius.circular(padding / 2)),
-                                  child: Center(
-                                      child: SizedBox(
-                                    height: padding * 1.5,
-                                    width: padding * 1.5,
-                                    child: const CircularProgressIndicator(
-                                      color: whiteColor,
-                                    ),
-                                  ))),
-                        ),
+                              if (signUpSuccess) {
+                                // ignore: use_build_context_synchronously
+                                UpDownNavigation().navigateToPage(context,
+                                    page: VerifyMailPage());
+                              }
+                            },
+                            child: BasicTextButton(
+                              text: "Confirm and continue",
+                              backgroundColor: isAnyTextFieldEmpty.value
+                                  ? greyColor
+                                  : blackColor,
+                              textColor: whiteColor,
+                              isLoading: isLoading,
+                              height: bigButtonHeight,
+                            )),
                       ),
                     ),
                     Padding(

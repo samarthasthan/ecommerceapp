@@ -2,8 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerceapp/constants.dart';
 import 'package:ecommerceapp/controllers/nagivation_animations/up_down_navigation.dart';
-import 'package:ecommerceapp/views/auth/login_page.dart';
-import 'package:ecommerceapp/views/auth/sign_up_page.dart';
+import 'package:ecommerceapp/views/auth_pages/login_page.dart';
+import 'package:ecommerceapp/views/auth_pages/sign_up_page.dart';
 import 'package:ecommerceapp/views/widgets/buttons/basic_text_button.dart';
 import 'package:ecommerceapp/views/widgets/texts/paragraph.dart';
 import 'package:flutter/material.dart';
@@ -86,6 +86,8 @@ class StartPage extends StatelessWidget {
                       text: "Create Account",
                       backgroundColor: blackColor,
                       textColor: whiteColor,
+                      isLoading: tempBool,
+                      height: bigButtonHeight,
                     ),
                   ),
                   SizedBox(
@@ -100,6 +102,8 @@ class StartPage extends StatelessWidget {
                       text: "Sign In",
                       backgroundColor: blackColor,
                       textColor: whiteColor,
+                      isLoading: tempBool,
+                      height: bigButtonHeight,
                     ),
                   ),
                 ],

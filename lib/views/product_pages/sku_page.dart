@@ -2,19 +2,19 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:ecommerceapp/constants.dart';
+import 'package:ecommerceapp/controllers/cart_controller.dart';
 import 'package:ecommerceapp/controllers/discount_controller.dart';
-import 'package:ecommerceapp/controllers/sku_controller.dart';
-import 'package:ecommerceapp/models/sku_page_model.dart';
+import 'package:ecommerceapp/controllers/main_menu_controllers/wishlist_controller.dart';
+import 'package:ecommerceapp/controllers/product_model/sku_controller.dart';
+import 'package:ecommerceapp/models/product_models/sku_model.dart';
 import 'package:ecommerceapp/views/widgets/buttons/basic_text_button.dart';
 import 'package:ecommerceapp/views/widgets/loading.dart';
 import 'package:ecommerceapp/views/widgets/texts/paragraph.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-
-import '../../constants.dart';
 
 class SKUPage extends StatelessWidget {
   SKUPage(
@@ -86,6 +86,13 @@ class ProductItem extends StatelessWidget {
   final CarouselController _carouselController = CarouselController();
 
   final SKUController skuController = Get.put(SKUController());
+
+  final CartController cartController = Get.put(CartController());
+  final WishListController wishListController = Get.put(WishListController());
+
+  RxBool isCartLoading = false.obs;
+  RxBool isWishListLoading = false.obs;
+  RxString cartButtonText = ''.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -416,19 +423,141 @@ class ProductItem extends StatelessWidget {
                           SizedBox(
                             height: textPadding,
                           ),
-                          BasicTextButton(
-                            text: "Wishlist",
-                            backgroundColor: blackColor,
-                            textColor: whiteColor,
+                          Obx(
+                            () => GestureDetector(
+                              child: BasicTextButton(
+                                text: data
+                                            .value!
+                                            .products![skuController
+                                                .currentProduct.value]
+                                            .inWishlist!
+                                            .value ==
+                                        true
+                                    ? "Remove from Wishlist"
+                                    : "Add to Wishlist",
+                                backgroundColor: blackColor,
+                                textColor: whiteColor,
+                                isLoading: isWishListLoading,
+                                height: bigButtonHeight,
+                              ),
+                              onTap: () async {
+                                isWishListLoading.value = true;
+
+                                if (data
+                                        .value!
+                                        .products![
+                                            skuController.currentProduct.value]
+                                        .inWishlist!
+                                        .value ==
+                                    false) {
+                                  await wishListController.addWishtlistItem(
+                                    productId: data
+                                        .value!
+                                        .products![
+                                            skuController.currentProduct.value]
+                                        .productId!,
+                                    userId: await getUserId(),
+                                  );
+
+                                  isWishListLoading.value = false;
+                                  data
+                                      .value!
+                                      .products![
+                                          skuController.currentProduct.value]
+                                      .inWishlist!
+                                      .value = true;
+                                } else {
+                                  wishListController.deleteWishtlistItem(
+                                    productId: data
+                                        .value!
+                                        .products![
+                                            skuController.currentProduct.value]
+                                        .productId!,
+                                    userId: await getUserId(),
+                                  );
+                                  isWishListLoading.value = false;
+                                  data
+                                      .value!
+                                      .products![
+                                          skuController.currentProduct.value]
+                                      .inWishlist!
+                                      .value = false;
+                                }
+                                wishListController.update();
+                              },
+                            ),
                           ),
                           SizedBox(
                             height: textPadding,
                           ),
-                          BasicTextButton(
-                            text: "Add to cart",
-                            backgroundColor: redColor,
-                            textColor: whiteColor,
-                          ),
+                          Obx(
+                            () => GestureDetector(
+                              child: BasicTextButton(
+                                text: data
+                                            .value!
+                                            .products![skuController
+                                                .currentProduct.value]
+                                            .inCart!
+                                            .value ==
+                                        true
+                                    ? "Remove from Cart"
+                                    : "Add to Cart",
+                                backgroundColor: redColor,
+                                textColor: whiteColor,
+                                isLoading: isCartLoading,
+                                height: bigButtonHeight,
+                              ),
+                              onTap: () async {
+                                isCartLoading.value = true;
+
+                                if (data
+                                        .value!
+                                        .products![
+                                            skuController.currentProduct.value]
+                                        .inCart!
+                                        .value ==
+                                    false) {
+                                  await cartController.addCartItem(
+                                      productId: data
+                                          .value!
+                                          .products![skuController
+                                              .currentProduct.value]
+                                          .productId!,
+                                      userId: await getUserId(),
+                                      variationItemsId: data
+                                          .value!
+                                          .products![skuController
+                                              .currentProduct.value]
+                                          .variations![0]
+                                          .variationItems![skuController
+                                              .currentVariation.value]
+                                          .variationItemId);
+
+                                  isCartLoading.value = false;
+                                  data
+                                      .value!
+                                      .products![
+                                          skuController.currentProduct.value]
+                                      .inCart!
+                                      .value = true;
+                                } else {
+                                  cartController.deleteCartItem(data
+                                      .value!
+                                      .products![
+                                          skuController.currentProduct.value]
+                                      .productId!);
+                                  isCartLoading.value = false;
+                                  data
+                                      .value!
+                                      .products![
+                                          skuController.currentProduct.value]
+                                      .inCart!
+                                      .value = false;
+                                }
+                                skuController.update();
+                              },
+                            ),
+                          )
                         ],
                       ),
                     ),

@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:ecommerceapp/constants.dart';
-import 'package:ecommerceapp/models/sku_page_model.dart';
+import 'package:ecommerceapp/models/product_models/sku_model.dart';
+import 'package:ecommerceapp/models/user_model.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -41,8 +42,9 @@ class SKUController extends GetxController {
     var headers = {
       'accept': 'application/json',
     };
-
-    var url = Uri.parse('$baseUrl/product?sku_id=$skuId');
+    UserModel userDetails = await getUserDetails();
+    var url = Uri.parse(
+        '$baseUrl/product?user_id=${userDetails.userId}&sku_id=$skuId');
     var res = await http.get(url, headers: headers);
     if (res.statusCode != 200) {
       throw Exception('http.get error: statusCode= ${res.statusCode}');

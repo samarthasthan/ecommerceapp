@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:ecommerceapp/constants.dart';
-import 'package:ecommerceapp/models/products_model.dart';
+import 'package:ecommerceapp/models/product_models/product_model.dart';
+import 'package:ecommerceapp/models/user_model.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,9 +17,9 @@ class ProductsController extends GetxController {
     }
 
     isLoading.value = true;
-
+    UserModel userDetails = await getUserDetails();
     var url = Uri.parse(
-        '$baseUrl/products?category_id=$category_id&page=${currentPage.value}&per_page=10');
+        '$baseUrl/products?user_id=${userDetails.userId}&category_id=$categoryId&page=${currentPage.value}&per_page=10');
 
     try {
       var res = await http.get(url);

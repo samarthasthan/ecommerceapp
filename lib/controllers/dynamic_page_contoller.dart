@@ -3,7 +3,7 @@
 import 'dart:convert';
 
 import 'package:ecommerceapp/constants.dart';
-import 'package:ecommerceapp/models/homepage/dynamic_page_model.dart';
+import 'package:ecommerceapp/models/dynamic_page_models/dynamic_page_model.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 

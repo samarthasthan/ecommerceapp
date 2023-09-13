@@ -5,8 +5,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerceapp/constants.dart';
 import 'package:ecommerceapp/controllers/delete_account_controller.dart';
 import 'package:ecommerceapp/controllers/nagivation_animations/up_down_navigation.dart';
-import 'package:ecommerceapp/views/boarding/onboard_page.dart';
-import 'package:ecommerceapp/views/pages/address_page.dart';
+import 'package:ecommerceapp/views/address_pages/address_page.dart';
+import 'package:ecommerceapp/views/boarding_pages/onboard_page.dart';
 import 'package:ecommerceapp/views/widgets/buttons/basic_text_button.dart';
 import 'package:ecommerceapp/views/widgets/texts/big_heading.dart';
 import 'package:ecommerceapp/views/widgets/texts/paragraph.dart';
@@ -118,7 +118,7 @@ class AccountPage extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      APICacheManager().deleteCache('login_token');
+                      APICacheManager().deleteCache('user_details');
                       UpDownNavigation()
                           .navigateToPage(context, page: StartPage());
                     },
@@ -126,6 +126,8 @@ class AccountPage extends StatelessWidget {
                       text: "Log out",
                       textColor: whiteColor,
                       backgroundColor: blackColor,
+                      isLoading: tempBool,
+                      height: bigButtonHeight,
                     ),
                   ),
                   SizedBox(
@@ -142,6 +144,8 @@ class AccountPage extends StatelessWidget {
                       text: "Delete Account",
                       textColor: whiteColor,
                       backgroundColor: blackColor,
+                      isLoading: tempBool,
+                      height: bigButtonHeight,
                     ),
                   )
                 ],

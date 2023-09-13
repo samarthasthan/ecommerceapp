@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerceapp/constants.dart';
 import 'package:ecommerceapp/controllers/cart_controller.dart';
 import 'package:ecommerceapp/models/cart_page_model.dart';
-import 'package:ecommerceapp/views/pages/sku_page.dart';
+import 'package:ecommerceapp/views/product_pages/sku_page.dart';
 import 'package:ecommerceapp/views/widgets/buttons/basic_text_button.dart';
 import 'package:ecommerceapp/views/widgets/loading.dart';
 import 'package:ecommerceapp/views/widgets/texts/paragraph.dart';
@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 // ignore: unused_import
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class CartPage extends StatelessWidget {
@@ -43,7 +42,7 @@ class CartPage extends StatelessWidget {
         padding: EdgeInsets.only(
             top: 0, left: padding, right: padding, bottom: padding),
         child: FutureBuilder<RxList<CartModel>>(
-            future: cartController.getCartPage(),
+            future: cartController.getCartItemS(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 // Display a loading indicator while waiting for data
@@ -275,10 +274,18 @@ class CartItems extends StatelessWidget {
             visible: cartController.cartItems.isEmpty ? false : true,
             child: Align(
               alignment: Alignment.bottomCenter,
-              child: BasicTextButton(
-                text: 'Place Order',
-                textColor: whiteColor,
-                backgroundColor: blackColor,
+              child: Container(
+                color: whiteColor,
+                child: Padding(
+                  padding: EdgeInsets.all(15.sp),
+                  child: BasicTextButton(
+                    text: 'Place Order',
+                    textColor: whiteColor,
+                    backgroundColor: blackColor,
+                    isLoading: tempBool,
+                    height: bigButtonHeight,
+                  ),
+                ),
               ),
             ),
           ),
@@ -320,7 +327,7 @@ class CartItem extends StatelessWidget {
                 height: 140.h, fit: BoxFit.cover, imageUrl: item.productImage!),
           ),
           SizedBox(
-            width: textPadding,
+            width: padding,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -330,7 +337,7 @@ class CartItem extends StatelessWidget {
                 height: textPadding,
               ),
               SizedBox(
-                width: 360.w / 1.8,
+                width: 360.w / 1.9,
                 child: Row(
                   children: [
                     Paragraph(
@@ -366,11 +373,8 @@ class CartItem extends StatelessWidget {
                       child: DropdownButtonFormField<String>(
                         decoration: InputDecoration.collapsed(
                           hintText: '',
-                          hintStyle: GoogleFonts.montserrat(
-                            textStyle: TextStyle(
-                              fontSize: 12.sp,
-                            ),
-                          ),
+                          hintStyle: TextStyle(
+                              fontFamily: primaryFont, fontSize: 12.sp),
                         ),
                         value: selectedSize,
                         items: item.allVariationItems?.map((variationItem) {

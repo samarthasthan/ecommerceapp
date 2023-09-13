@@ -1,9 +1,7 @@
-// ignore_for_file: must_be_immutable, use_build_context_synchronously
-
 import 'package:ecommerceapp/constants.dart';
+import 'package:ecommerceapp/controllers/user_controllers/verify_otp.dart';
 import 'package:ecommerceapp/controllers/utils.dart';
-import 'package:ecommerceapp/controllers/verify_otp.dart';
-import 'package:ecommerceapp/views/boarding/onboard_page.dart';
+import 'package:ecommerceapp/views/boarding_pages/onboard_page.dart';
 import 'package:ecommerceapp/views/widgets/buttons/basic_text_button.dart';
 import 'package:ecommerceapp/views/widgets/textfields/form_textfield.dart';
 import 'package:ecommerceapp/views/widgets/texts/big_heading.dart';
@@ -13,6 +11,7 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+// ignore: must_be_immutable
 class VerifyMailPage extends StatelessWidget {
   VerifyMailPage({super.key});
 
@@ -136,52 +135,39 @@ class VerifyMailPage extends StatelessWidget {
                     ),
                     Obx(
                       () => GestureDetector(
-                        onTap: () async {
-                          isVerifyLoading.value = true;
-                          FocusManager.instance.primaryFocus?.unfocus();
-                          bool verifySuccess = await verifyOTPController.verify(
-                            email: emailController.text,
-                            otp: verificationCodeController.text,
-                          );
-                          isVerifyLoading.value = false;
-
-                          if (verifySuccess) {
+                          onTap: () async {
+                            isVerifyLoading.value = true;
                             FocusManager.instance.primaryFocus?.unfocus();
-                            Navigator.pushAndRemoveUntil<dynamic>(
-                              context,
-                              MaterialPageRoute<dynamic>(
-                                builder: (BuildContext context) => StartPage(),
-                              ),
-                              (route) =>
-                                  false, //if you want to disable back feature set to false
+                            bool verifySuccess =
+                                await verifyOTPController.verify(
+                              email: emailController.text,
+                              otp: verificationCodeController.text,
                             );
-                            ClearTextFields().clearAll();
-                          }
-                        },
-                        child: isVerifyLoading.value == false
-                            ? BasicTextButton(
-                                text: "Verify",
-                                backgroundColor: isAnyTextFieldEmpty.value
-                                    ? greyColor
-                                    : blackColor,
-                                textColor: whiteColor,
-                              )
-                            : Container(
-                                width: double.infinity,
-                                height: padding * 2.5,
-                                decoration: BoxDecoration(
-                                    color: blackColor,
-                                    borderRadius:
-                                        BorderRadius.circular(padding / 2)),
-                                child: Center(
-                                    child: SizedBox(
-                                  height: padding * 1.5,
-                                  width: padding * 1.5,
-                                  child: const CircularProgressIndicator(
-                                    color: whiteColor,
-                                  ),
-                                ))),
-                      ),
+                            isVerifyLoading.value = false;
+
+                            if (verifySuccess) {
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              Navigator.pushAndRemoveUntil<dynamic>(
+                                context,
+                                MaterialPageRoute<dynamic>(
+                                  builder: (BuildContext context) =>
+                                      StartPage(),
+                                ),
+                                (route) =>
+                                    false, //if you want to disable back feature set to false
+                              );
+                              ClearTextFields().clearAll();
+                            }
+                          },
+                          child: BasicTextButton(
+                            text: "Verify",
+                            backgroundColor: isAnyTextFieldEmpty.value
+                                ? greyColor
+                                : blackColor,
+                            textColor: whiteColor,
+                            isLoading: isVerifyLoading,
+                            height: bigButtonHeight,
+                          )),
                     ),
                   ],
                 ),

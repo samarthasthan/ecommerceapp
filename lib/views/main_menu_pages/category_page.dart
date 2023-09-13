@@ -3,8 +3,8 @@
 import 'package:ecommerceapp/constants.dart';
 import 'package:ecommerceapp/controllers/dynamic_page_contoller.dart';
 // ignore: unused_import
-import 'package:ecommerceapp/controllers/main_menu_controller.dart';
-import 'package:ecommerceapp/views/widgets/dynamic_page/dynamic_page_widgets.dart';
+import 'package:ecommerceapp/controllers/main_menu_controllers/main_menu_controller.dart';
+import 'package:ecommerceapp/views/dynamic_pages/dynamic_page_widgets.dart';
 import 'package:ecommerceapp/views/widgets/loading.dart';
 import 'package:ecommerceapp/views/widgets/texts/paragraph.dart';
 import 'package:flutter/cupertino.dart';

@@ -5,6 +5,8 @@ class ProductsModel {
   String? productImage;
   double? regularPrice;
   double? salePrice;
+  bool? inCart;
+  bool? inWishlist;
 
   ProductsModel(
       {this.skuId,
@@ -12,7 +14,9 @@ class ProductsModel {
       this.productName,
       this.productImage,
       this.regularPrice,
-      this.salePrice});
+      this.salePrice,
+      this.inCart,
+      this.inWishlist});
 
   ProductsModel.fromJson(Map<String, dynamic> json) {
     skuId = json['sku_id'];
@@ -21,6 +25,8 @@ class ProductsModel {
     productImage = json['product_image'];
     regularPrice = json['regular_price'];
     salePrice = json['sale_price'];
+    inCart = json['in_cart'];
+    inWishlist = json['in_wishlist'];
   }
 
   Map<String, dynamic> toJson() {
@@ -31,6 +37,8 @@ class ProductsModel {
     data['product_image'] = this.productImage;
     data['regular_price'] = this.regularPrice;
     data['sale_price'] = this.salePrice;
+    data['in_cart'] = this.inCart;
+    data['in_wishlist'] = this.inWishlist;
     return data;
   }
 }

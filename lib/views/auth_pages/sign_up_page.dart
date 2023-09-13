@@ -1,9 +1,10 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:ecommerceapp/constants.dart';
-import 'package:ecommerceapp/controllers/login_controller.dart';
+import 'package:ecommerceapp/controllers/nagivation_animations/up_down_navigation.dart';
+import 'package:ecommerceapp/controllers/user_controllers/sign_up_controller.dart';
 import 'package:ecommerceapp/controllers/utils.dart';
-import 'package:ecommerceapp/main_menu.dart';
+import 'package:ecommerceapp/views/auth_pages/verify_mail_page.dart';
 import 'package:ecommerceapp/views/widgets/buttons/basic_text_button.dart';
 import 'package:ecommerceapp/views/widgets/textfields/form_textfield.dart';
 import 'package:ecommerceapp/views/widgets/texts/big_heading.dart';
@@ -13,12 +14,12 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class SignUpPage extends StatelessWidget {
+  SignUpPage({super.key});
 
   RxBool isAnyTextFieldEmpty = false.obs;
   RxBool isLoading = false.obs;
-  LoginController logInController = Get.put(LoginController());
+  SignUpController signUpController = Get.put(SignUpController());
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class LoginPage extends StatelessWidget {
         appBar: AppBar(backgroundColor: whiteColor, elevation: 0, actions: [
           GestureDetector(
             onTap: () {
-              Get.delete<LoginController>;
+              Get.delete<SignUpController>;
               Navigator.pop(context);
               ClearTextFields().clearAll();
             },
@@ -72,7 +73,7 @@ class LoginPage extends StatelessWidget {
                           (BuildContext context, double value, Widget? child) {
                         return BigHeading(
                           size: value,
-                          text: "Log In",
+                          text: "Create account",
                           weight: FontWeight.bold,
                         );
                       },
@@ -83,13 +84,13 @@ class LoginPage extends StatelessWidget {
                     Row(
                       children: [
                         Paragraph(
-                          text: "Don't have account?",
+                          text: "Have an account?",
                         ),
                         SizedBox(
                           width: padding / 4,
                         ),
                         Paragraph(
-                          text: "Create Now",
+                          text: "Sign in",
                           color: redColor,
                           decoration: TextDecoration.underline,
                         ),
@@ -98,11 +99,46 @@ class LoginPage extends StatelessWidget {
                     SizedBox(
                       height: padding,
                     ),
+                    Row(
+                      children: [
+                        FormTextField(
+                          text: "First Name",
+                          controller: firstNameController,
+                          capitalization: TextCapitalization.words,
+                          onChange: (value) => isAnyTextFieldEmpty.value =
+                              _checkIfAnyTextFieldIsEmpty(),
+                        ),
+                        SizedBox(
+                          width: padding,
+                        ),
+                        FormTextField(
+                          text: "Last Name",
+                          controller: lastNameController,
+                          capitalization: TextCapitalization.words,
+                          onChange: (value) => isAnyTextFieldEmpty.value =
+                              _checkIfAnyTextFieldIsEmpty(),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: padding,
+                    ),
                     FormTextField(
                       text: "Email",
-                      keyBoardType: TextInputType.emailAddress,
-                      capitalization: TextCapitalization.none,
                       controller: emailController,
+                      capitalization: TextCapitalization.none,
+                      keyBoardType: TextInputType.emailAddress,
+                      onChange: (value) => isAnyTextFieldEmpty.value =
+                          _checkIfAnyTextFieldIsEmpty(),
+                    ),
+                    SizedBox(
+                      height: padding,
+                    ),
+                    FormTextField(
+                      text: "Phone Number",
+                      controller: phoneNumberController,
+                      capitalization: TextCapitalization.none,
+                      keyBoardType: TextInputType.phone,
                       onChange: (value) => isAnyTextFieldEmpty.value =
                           _checkIfAnyTextFieldIsEmpty(),
                     ),
@@ -113,78 +149,42 @@ class LoginPage extends StatelessWidget {
                       text: "Password",
                       controller: passwordController,
                       isSecret: true,
-                      capitalization: TextCapitalization.none,
                       onChange: (value) => isAnyTextFieldEmpty.value =
                           _checkIfAnyTextFieldIsEmpty(),
                     ),
                     SizedBox(
                       height: padding,
                     ),
-                    Row(
-                      children: [
-                        Paragraph(
-                          color: blackColor,
-                          text: "Forgot password?",
-                        ),
-                        SizedBox(
-                          width: padding / 4,
-                        ),
-                        Paragraph(
-                          color: redColor,
-                          text: "Forgot it",
-                          decoration: TextDecoration.underline,
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: padding,
-                    ),
                     Obx(
                       () => GestureDetector(
-                        onTap: () async {
-                          isLoading.value = true;
-                          FocusManager.instance.primaryFocus?.unfocus();
-                          bool logInSuccess = await logInController.login(
-                            email: emailController.text,
-                            password: passwordController.text,
-                          );
-                          isLoading.value = false;
+                          onTap: () async {
+                            isLoading.value = true;
+                            FocusManager.instance.primaryFocus?.unfocus();
+                            bool signUpSuccess = await signUpController.signUp(
+                              firstName: firstNameController.text,
+                              lastName: lastNameController.text,
+                              email: emailController.text,
+                              phoneNo: int.parse(phoneNumberController.text),
+                              password: passwordController.text,
+                            );
+                            isLoading.value = false;
 
-                          if (logInSuccess) {
-                            // ignore: use_build_context_synchronously
-                            Navigator.pushAndRemoveUntil(context,
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) {
-                              return const MainMenu();
-                            }), (r) {
-                              return false;
-                            });
-                          }
-                        },
-                        child: isLoading.value == false
-                            ? BasicTextButton(
-                                text: "Log In",
-                                backgroundColor: isAnyTextFieldEmpty.value
-                                    ? greyColor
-                                    : blackColor,
-                                textColor: whiteColor,
-                              )
-                            : Container(
-                                width: double.infinity,
-                                height: padding * 2.5,
-                                decoration: BoxDecoration(
-                                    color: blackColor,
-                                    borderRadius: BorderRadius.circular(curve)),
-                                child: Center(
-                                    child: SizedBox(
-                                  height: padding * 1.5,
-                                  width: padding * 1.5,
-                                  child: const CircularProgressIndicator(
-                                    color: whiteColor,
-                                  ),
-                                ))),
-                      ),
-                    )
+                            if (signUpSuccess) {
+                              // ignore: use_build_context_synchronously
+                              UpDownNavigation().navigateToPage(context,
+                                  page: VerifyMailPage());
+                            }
+                          },
+                          child: BasicTextButton(
+                            text: "Confirm and continue",
+                            backgroundColor: isAnyTextFieldEmpty.value
+                                ? greyColor
+                                : blackColor,
+                            textColor: whiteColor,
+                            isLoading: isLoading,
+                            height: bigButtonHeight,
+                          )),
+                    ),
                   ],
                 ),
               ),
@@ -194,6 +194,10 @@ class LoginPage extends StatelessWidget {
   }
 
   bool _checkIfAnyTextFieldIsEmpty() {
-    return emailController.text.isEmpty || passwordController.text.isEmpty;
+    return firstNameController.text.isEmpty ||
+        lastNameController.text.isEmpty ||
+        emailController.text.isEmpty ||
+        phoneNumberController.text.isEmpty ||
+        passwordController.text.isEmpty;
   }
 }
